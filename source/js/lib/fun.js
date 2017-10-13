@@ -19,6 +19,29 @@ define(function (require, exports, module) {
         return null;
     };
 
+    exports.available = function (type, v) {
+        var result = {rule: false, msg: ''};
+
+        if (!!type) {
+            var rules = {
+                "phone": {
+                    rule: function(v) {
+                        if(v.length>11) return false;
+                        return /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i.test(v.trim());
+                    },
+                    msg: "请输入正确的手机号码"
+                }
+            };
+
+            result.rule = rules[type].rule(v);
+            result.msg = rules[type].msg;
+
+            rules = null;
+        }
+
+        return result;
+    };
+
     /** layer loading */
     exports.layerLoad = function () {
         return layer.load(1, {shade: [0.1, '#fff']});
@@ -97,6 +120,22 @@ define(function (require, exports, module) {
             $activeItem = $this;
             console.log($activeItem);
             $this = null;
+        }).on('click', '#buy', function (e) {
+            var telNum = $('input[name="telNum"]').val();
+
+            var result = module.exports.available('phone', telNum);
+            console.log(result);
+            if (result.rule == false) {
+                module.exports.swal(result.msg, 'warning');
+                return false;
+            }
+
+            console.log($activeItem);
+            if ($activeItem.length <= 0) {
+                module.exports.swal('请选择套餐类型', 'warning');
+                return false;
+            }
+
         });
 
         // 订单
