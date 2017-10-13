@@ -1,0 +1,11 @@
+@import "../../vars";
+
+//#app{color: $color-deep-red;}
+body{background-color: $color-bg; cursor: pointer;}
+
+.r-article{
+  height: calc(100% - 24px);
+  top: 0;
+  bottom: 24px;
+  padding-top: 0;
+}

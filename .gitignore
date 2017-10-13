@@ -1,0 +1,11 @@
+/bower_components
+/node_modules
+.project
+.idea
+*.iml
+.DS_Store
+*.DS_Store
+/*.iml
+/js/index.bak2.js
+/js/index.es6.js
+/js/index.bak.js

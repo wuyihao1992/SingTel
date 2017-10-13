@@ -1,0 +1,37 @@
+{
+  "name": "SingTel",
+  "version": "1.0.0",
+  "description": "SingTel",
+  "main": "source/js/index.js",
+  "author": "wuyihao",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serv": "node server.js"
+  },
+  "keywords": [
+    "SingTel"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "bower-installer": "^1.3.6",
+    "browser-sync": "^2.18.13",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^2.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-less": "^3.3.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.12.0",
+    "gulp-uglify": "^1.5.4",
+    "gulp-zip": "^3.2.0",
+    "gulp.spritesmith": "^6.5.1",
+    "run-sequence": "^1.2.2",
+    "yargs": "^3.32.0"
+  }
+}

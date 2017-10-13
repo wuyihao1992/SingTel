@@ -1,0 +1,65 @@
+@charset "utf-8";
+
+// 色调定义
+// ●主色调 ：橙色 #f47920 / rgba(244, 121, 32, 1)
+// ●辅色调 ：浅红 #ff6347 / rgba(255, 99, 71, .8)
+// ●边框色 ：象牙色 #f2eada / #E8E8E8
+// ●焦点框 ：#00b1a5 / rgba(0, 177, 165, .8)
+$color-main:            #f47920;
+$color-main-rgb:        rgba(244, 121, 32, 1);
+$color-sub:             #ff6347;
+$color-sub-rgb:         rgba(255, 99, 71, .8);
+$color-deep-red:        #ff6347;
+$color-low-red:         #FE8A77;
+$color-border:          #E8E8E8;
+$color-blue:            #00b1a5;
+$color-blue-rgb:        rgba(0, 177, 165, .8);
+
+$color-border-pay: #dedddd;
+$color-bg: #f2f2f2;
+
+@mixin box-shadow($shadow...){
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin _input{
+  height: 24px;
+  line-height: 24px;
+  padding: 0;
+  border: 1px solid $color-border;
+  vertical-align: middle;
+
+  @include box-shadow(inset 0 1px 1px rgba(0,0,0,.0));
+
+  -webkit-transition: border-color linear .2s,box-shadow linear .2s;
+  -moz-transition: border-color linear .2s,box-shadow linear .2s;
+  -o-transition: border-color linear .2s,box-shadow linear .2s;
+  transition: border-color linear .2s,box-shadow linear .2s;
+}
+@mixin _inputFocus{
+  //outline-offset: 0;
+  background-color:#fff;
+  border-color: $color-blue-rgb;
+  outline: 0;
+  outline: dotted thin\9;
+
+  @include box-shadow(inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(0, 177, 165, .6));
+}
+
+@mixin _clear{width: 0; height: 0; display: block; content: ''; clear: both;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

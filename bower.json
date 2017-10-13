@@ -1,0 +1,39 @@
+{
+  "name": "bower-json",
+  "description": "bower-json",
+  "main": "index.js",
+  "authors": [
+    "wuyihao"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "bower-json"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "es6-promise.min": "http://www.jq22.com/demo/jQuerySweetAlert220160627/lib/es6-promise.min.js"
+  },
+  "devDependencies": {
+    "requirejs": "^2.3.5",
+    "sweetalert2": "^6.10.2",
+    "require-css": "^0.1.10",
+    "requirejs-plugins": "^1.0.3",
+    "jquery": "^3.2.1",
+    "nprogress": "^0.2.0",
+    "layer": "^3.0.3",
+    "underscore": "^1.8.3",
+    "touchslider": "http://www.bcty365.com/demofile/2015/1019/d6c2b9e7a1/js/touchslider.js",
+    "es6-promise": "^4.1.1",
+    "finally": "http://www.jq22.com/demo/jQuerySweetAlert220160627/lib/finally.js",
+    "sweetalert": "^2.0.5",
+    "css.min": "http://cdn.bootcss.com/require-css/0.1.8/css.min.js?1.0"
+  }
+}
