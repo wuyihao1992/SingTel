@@ -9,11 +9,11 @@ node server
 #### Index
 `test => http://localhost:3000/index.html`
 
-`SingTel => http://localhost:3000/index.html#/recharge/SingTel`
-`Starhub => http://localhost:3000/index.html#/recharge/Starhub`
+`SingTel => http://localhost:3000/index.html#/recharge/SingTel`<br/>
+`Starhub => http://localhost:3000/index.html#/recharge/Starhub`<br/>
 `M1      => http://localhost:3000/index.html#/recharge/M1`
 
-`order(我的订单)   => http://localhost:3000/index.html#/order/order`
+`order(我的订单)   => http://localhost:3000/index.html#/order/order`<br/>
 `orderBack(申请退款) => http://localhost:3000/index.html#/order/orderBack`
 
 `policy(退款政策) => http://localhost:3000/index.html#/common/policy`
