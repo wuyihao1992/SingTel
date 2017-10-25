@@ -71,6 +71,7 @@ a{
   }
 
   &:link, &:visited, &:hover{
+    color: $color-blue;
     text-decoration: none;
     tap-highlight-color: rgba(0,0,0,0);
     -webkit-tap-highlight-color: rgba(0,0,0,0);

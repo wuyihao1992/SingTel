@@ -23,6 +23,7 @@
 .r-marBot{margin-bottom: 15px;}
 .r-hide{display: none;}
 .r-fullWidth{width: 100%;}
+.r-textCenter{text-align: center;}
 
 // ##### html start #####
 .r-mainContainer {width: 100%; height: 100%; overflow: hidden;}
@@ -109,7 +110,10 @@ $default-page-color: #00b1a5;
 .r-itemWrap .r-item:not(:last-child){margin-right: 2vw;} // FIXME
 .r-itemWrap .r-item.active{color: #fff; background-color: $default-page-color;}
 
-.r-tips{text-align: center;}
+.r-tips{
+
+}
+.r-tips > li{list-style: disc;}
 .r-backMoney{position: absolute; bottom: 0; text-align: center; width: 100%; height: 24px;}
 
 // ### order.html ###
