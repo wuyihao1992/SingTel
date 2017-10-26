@@ -153,9 +153,10 @@ define(function (require, exports, module) {
             $this.addClass('active').siblings().removeClass('active');
 
             if (!!callback && typeof callback == 'function') {
-                callback.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
+                // callback.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
                 // callback.apply(this, [$this]);
                 // callback.call();
+                callback();
             }
         });
     };
