@@ -44,9 +44,9 @@
             cssUrl = '../../build/css/view' + url[0] + '.css';*/
 
             if (url.length > 1){
-                htmlUrl = $conf.html + url[0] + '.html?' + url[1];
+                htmlUrl = $conf.view + url[0] + '.html?' + url[1];
             }else {
-                htmlUrl = $conf.html + url[0] + '.html';
+                htmlUrl = $conf.view + url[0] + '.html';
             }
             jsUrl = $conf.source + '/js/view' + url[0] + '.js';
             cssUrl = $conf.build + '/css/view' + url[0] + '.css';

@@ -8,14 +8,25 @@
         var Order = function () {
             var _this = this;
 
+            this.bizCont = {page: 1};
+            this.canLoadPage = true;
+            // TODO: test
+            this.$onePageLi = $('.r-article__ul').html();
+
             // FIXME: 获取数据
             this.fetchData = function ($obj) {
                 console.log($obj);
-                layer.msg('msg');
+            };
+
+            this.tabClick = function () {
+                _this.bizCont.page = 1;
+                _this.canLoadPage = true;
+
+                $('.r-article__ul').html(_this.$onePageLi); // 清空
             };
 
             this.init = function () {
-                fun.jqInit(_this.fetchData);
+                fun.jqInit(_this.tabClick);
 
                 $(document).on('click', '.r-click', function (e) {
                     var $this = $(e.target);
@@ -32,6 +43,38 @@
                         fun.swal('退款失败，请稍后重试', 'error');
                     }
                 });
+
+                var $article = $('.r-article'), $ul = $('.r-article__ul'), $load = $('#loadMore');
+                var loadHeight = $load.height();
+                $article.on('scroll', function () {
+                    var $this = $article.get(0);
+                    var scrollHeight = $this.scrollHeight,
+                        clientHeight = $this.clientHeight,
+                        scrollTop = $this.scrollTop;
+
+                    console.log(scrollHeight, clientHeight, scrollTop);
+
+                    // scrollHeight = scrollHeight - loadHeight;
+                    if ((scrollTop + clientHeight) >= scrollHeight) {
+                        _this.fetchData();
+
+                        // TODO: test
+                        if (_this.canLoadPage) {
+                            $ul.append(_this.$onePageLi);
+
+                            _this.bizCont.page += 1;
+                            layer.msg('page:' + _this.bizCont.page);
+
+                            if (_this.bizCont.page >= 10) {
+                                _this.canLoadPage = false;
+                                $load.html('没有更多数据');
+                            }
+                        }
+                    }
+
+                    $this = null; scrollHeight = null; clientHeight = null; scrollTop = null;
+                });
+
             };
         };
 

@@ -1,12 +1,17 @@
-#### Installation
+### Run
+```bash
+node server
+```
+
+#### Dev Installation
 ```bash
 npm install
 bower install
 ```
 ```bash
-node server
+gulp task
 ```
-#### Index
+#### Page
 `test => http://localhost:3000/index.html`
 
 `SingTel => http://localhost:3000/index.html#/recharge/SingTel`<br/>

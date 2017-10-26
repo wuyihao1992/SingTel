@@ -1,57 +1,57 @@
 @import "vars";
 
 ::selection, ::-webkit-selection, ::-moz-selection{
-  background: none;
+    background: none;
 }
 :focus {
-  outline: none;
+    outline: none;
 }
 input:focus, textarea:focus, select:focus {
-  outline-offset: 0;
+    outline-offset: 0;
 }
 
 *{padding: 0;margin: 0;list-style: none;border: 0;vertical-align: baseline;}
 *, :after, :before {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body, html{
-  width: 100%;
-  height: 100%;
-  font-family: "PingFang SC","Microsoft YaHei",Arial,Helvetica,sans-serif,SimSun,SimHei;
-  tap-highlight-color: rgba(0,0,0,0);
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  // 禁止iOS用户选中文字
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  // 禁止设备弹出列表按钮
-  -webkit-touch-callout: none;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100%;
+    font-family: "PingFang SC","Microsoft YaHei",Arial,Helvetica,sans-serif,SimSun,SimHei;
+    tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    // 禁止iOS用户选中文字
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    // 禁止设备弹出列表按钮
+    -webkit-touch-callout: none;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html{
-  // 换算单位，body里面字体单位用rem
-  font-size: 62.5%;
+    // 换算单位，body里面字体单位用rem
+    font-size: 62.5%;
 }
 
 body{
-  background-color: #fff;
-  // 盒子的大小包括边框的宽度
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  //display: -webkit-box;
-  //padding-top: 2vh;
-  color: #333;
+    background-color: #fff;
+    // 盒子的大小包括边框的宽度
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    //display: -webkit-box;
+    //padding-top: 2vh;
+    color: #333;
 }
 
 div, section{
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 ul, li, ol{list-style:none;}
@@ -60,63 +60,95 @@ img, iframe{ border: 0;}
 img{display: block; vertical-align: middle;}
 
 a{
-  color: #666;
-  text-decoration: none;
-
-  blr: expression(this.onFocus = this.close());
-  blr: expression(this.onFocus = this.blur());
-  outline: none;
-  &:focus{
-    -moz-outline-style: none;
-  }
-
-  &:link, &:visited, &:hover{
-    color: $color-blue;
+    color: #666;
     text-decoration: none;
-    tap-highlight-color: rgba(0,0,0,0);
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-  }
 
-  &:active{
-    star: expression(this.onFocus = this.blur());
-  }
+    blr: expression(this.onFocus = this.close());
+    blr: expression(this.onFocus = this.blur());
+    outline: none;
+    &:focus{
+        -moz-outline-style: none;
+    }
+
+    &:link, &:visited, &:hover{
+        color: $color-blue;
+        text-decoration: none;
+        tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+    }
+
+    &:active{
+        star: expression(this.onFocus = this.blur());
+    }
 }
 
 input{
-  background-image: none;
+    background-image: none;
 
-  &[type=password], &[type=datetime], &[type=datetime-local], &[type=date], &[type=month],
-  &[type=time], &[type=week], &[type=number], &[type=email], &[type=url], &[type=search],
-  &[type=tel], &[type=color], &[type=text]{
+    &[type=password], &[type=datetime], &[type=datetime-local], &[type=date], &[type=month],
+    &[type=time], &[type=week], &[type=number], &[type=email], &[type=url], &[type=search],
+    &[type=tel], &[type=color], &[type=text]{
+        @include _input;
+
+        &:focus{
+            @include _inputFocus;
+        }
+    }
+
+    &[type=checkbox]:focus, &[type=radio]:focus, &[type=button]:focus{
+        box-shadow: none;
+    }
+}
+select,textarea{
     @include _input;
 
     &:focus{
-      @include _inputFocus;
+        @include _inputFocus;
     }
-  }
-
-  &[type=checkbox]:focus, &[type=radio]:focus, &[type=button]:focus{
-    box-shadow: none;
-  }
-}
-select,textarea{
-  @include _input;
-
-  &:focus{
-    @include _inputFocus;
-  }
 }
 
 /**
  * NProgress reset
  */
 #nprogress{
-  z-index: 100;
+    z-index: 100;
 
-  .bar{
-    background: $color-blue;
-  }
+    .bar{
+        background: $color-blue;
+    }
 }
 
 // swal reset
 .swal2-modal .swal2-styled:focus{box-shadow: none;}
+
+// loading
+.r-loadMore{
+    min-height: 34px;
+    line-height: 34px;
+    text-align: center;
+    cursor: pointer;
+    color: $color-gray;
+}
+/* load6 */
+.load6 {padding: 5px 0;}
+.load6 > div {
+    width: 30px;
+    height: 30px;
+    background-color: $color-blue;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+    animation: bouncedelay 1.4s infinite ease-in-out;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.load6 .bounce1 {-webkit-animation-delay: -0.32s; animation-delay: -0.32s;}
+.load6 .bounce2 {-webkit-animation-delay: -0.16s; animation-delay: -0.16s;}
+@-webkit-keyframes bouncedelay {
+    0%, 80%, 100% {-webkit-transform: scale(0.0) }
+    40% {-webkit-transform: scale(1.0) }
+}
+@keyframes bouncedelay {
+    0%, 80%, 100% {transform: scale(0.0); -webkit-transform: scale(0.0);}
+    40% {transform: scale(1.0); -webkit-transform: scale(1.0);}
+}

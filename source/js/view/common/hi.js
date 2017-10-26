@@ -1,27 +1,73 @@
-!define(['conf'], function ($conf) {
+!define(['conf', 'api', 'fun'], function ($conf, api, fun) {
     console.log($conf);
     document.title = 'Hi';
     // document.getElementById('app').innerHTML = 'Start Success! Welcome To hi.html!';
 
     return function ($html) {
         console.log($html);
-        layer.msg('layer start success!');
+        // layer.msg('layer start success!');
+        fun.swal('Run Success!');
 
         var origin = location.origin;
-        var url = {
-            test: '/index.html',
-            SingTel: '/index.html#/recharge/SingTel',
-            Starhub: '/index.html#/recharge/Starhub',
-            M1: '/index.html#/recharge/M1',
-            order: '/index.html#/order/order',
-            orderBack: '/index.html#/order/orderBack',
-            policy: '/index.html#/common/policy'
+        var urlObj = {
+            test: '',
+            SingTel: '/recharge/SingTel',
+            Starhub: '/recharge/Starhub',
+            M1: '/recharge/M1',
+            recharge: '/recharge/recharge',
+            order: '/order/order',
+            orderBack: '/order/orderBack',
+            policy: '/common/policy'
         };
 
         $('[data-type="url"]').each(function () {
             var $this = $(this);
-            $this.attr('href', origin + url[$this.data('key')]);
+            var data = $this.data(), url = '';
+
+            url = origin + '/index.html#' + urlObj[data.key];
+            if (data.key == 'recharge') {
+                url += '?type=' + data.url;
+            }
+
+            $this.attr('href', url);
             $this.attr('target', '_blank');
+        });
+
+        // 获取微信签名
+        api({url: location.href.split('#')[0]}, {url: 'getSignature'}).then(function (result) {
+            var data = result.data;
+            wx.config({
+                debug: true,
+                appId: data.appId,
+                timestamp: data.timestamp,
+                nonceStr: data.nonceStr,
+                signature: data.signature,
+                jsApiList: ["onMenuShareAppMessage", "onMenuShareTimeline", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone", "hideMenuItems"]
+            });
+            wx.ready(function () {
+                var option = {
+                    title: 'xxx',
+                    desc: 'xxs',
+                    link: 'index.html',
+                    imgUrl: 'images/logo.png',
+                    type: 'link'
+                };
+
+                wx.onMenuShareAppMessage(option);
+                wx.onMenuShareTimeline(option);
+                wx.onMenuShareQQ(option);
+                wx.onMenuShareWeibo(option);
+                wx.onMenuShareQZone(option);
+                wx.hideMenuItems({
+                    menuList: ["menuItem:openWithQQBrowser", "menuItem:openWithSafari", "menuItem:copyUrl"]
+                });
+            });
+            wx.error(function(res){
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+                console.log(res);
+            });
+        }, function () {
+            
         });
     };
 });

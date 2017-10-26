@@ -158,5 +158,28 @@ define(function (require, exports, module) {
                 // callback.call();
             }
         });
-    }
+    };
+
+    /**
+     * scroll 下拉刷新
+     * @param $obj
+     */
+    exports.$scroll = function ($obj) {
+        $obj.on('scroll', function () {
+            var $this = $obj.get(0);
+            var scrollTop = $this.scrollTop,        // 当前滚动距离
+                clientHeight = $this.clientHeight,  // 元素可见区域高度
+                scrollHeight = $this.scrollHeight;  // 元素文档内容总高度
+
+            // 如果底部有loading，则需减去loading高度
+            // var loadHeight = $('.m-idWrap__ul li.m-liMore').height();
+            // scrollHeight = scrollHeight - loadHeight;
+            if ((scrollTop + clientHeight) >= scrollHeight) {
+                // ajax
+            }
+
+            $this = null; scrollTop = null; clientHeight = null; scrollHeight = null;
+        });
+    };
+
 });
