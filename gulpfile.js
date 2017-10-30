@@ -41,7 +41,8 @@ gulp.task('clean', function(cb) {
         // 'build/**/*'
         'build/css/**/*',
         'build/js/**/*',
-        'build/img/**/*'
+        'build/img/**/*',
+        'build/view/**/*'
     ], cb);
 });
 
@@ -151,8 +152,10 @@ gulp.task('spriteSmith', function () {
 /**
  * 监听任务
  */
-gulp.task('watch', ['clean', 'sass'], function() {
+gulp.task('watch', ['JS', 'sass'], function() {
+    gulp.watch(['./source/js/**/*.js', './view/**/*.html'], ['JS']);
     gulp.watch('./source/sass/**/*.scss', ['sass']);       // watch的时候路径不要用'./path'(当前目录),直接使用'/path'(根目录),不然会导致新增文件无法被watch
+
     // gulp.watch('/js/models-es6/**/*.js', ['toes5']);
 });
 
@@ -165,7 +168,7 @@ gulp.task('build', ['clean'], function(cb) {
     var taskArr = [];
     if (dev){
         // taskArr = ['framework', 'sass', 'spriteSmith'];
-        taskArr = ['framework', 'sass'];
+        taskArr = ['sass', 'JS'];
     }else {
         // taskArr = ['framework', 'sass', 'spriteSmith', 'toes5'];
     }
