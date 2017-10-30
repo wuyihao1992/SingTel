@@ -14,7 +14,7 @@
             "json": "//cdn.bootcss.com/requirejs-plugins/1.0.3/json.min",
             // "css": "//cdn.bootcss.com/require-css/0.1.8/css.min",
 
-            "css": "../../assets/js/css.min",
+            "css": "../assets/js/css.min",
 
             "api": "lib/api",
             "fun": "lib/fun"
@@ -36,9 +36,9 @@
             }
 
             if (url.length > 1){
-                htmlUrl = '../../view' + url[0] + '.html?' + url[1];
+                htmlUrl = '../../build/view' + url[0] + '.html?' + url[1];
             }else {
-                htmlUrl = '../../view' + url[0] + '.html';
+                htmlUrl = '../../build/view' + url[0] + '.html';
             }
             jsUrl = '../../build/js/view' + url[0] + '.js';
             cssUrl = '../../build/css/view' + url[0] + '.css';
