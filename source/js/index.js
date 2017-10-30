@@ -35,21 +35,21 @@
                 url[0] = '/common/hi';
             }
 
-            /*if (url.length > 1){
+            if (url.length > 1){
                 htmlUrl = '../../view' + url[0] + '.html?' + url[1];
             }else {
                 htmlUrl = '../../view' + url[0] + '.html';
             }
             jsUrl = '../../source/js/view' + url[0] + '.js';
-            cssUrl = '../../build/css/view' + url[0] + '.css';*/
+            cssUrl = '../../build/css/view' + url[0] + '.css';
 
-            if (url.length > 1){
+            /*if (url.length > 1){
                 htmlUrl = $conf.view + url[0] + '.html?' + url[1];
             }else {
                 htmlUrl = $conf.view + url[0] + '.html';
             }
             jsUrl = $conf.source + '/js/view' + url[0] + '.js';
-            cssUrl = $conf.build + '/css/view' + url[0] + '.css';
+            cssUrl = $conf.build + '/css/view' + url[0] + '.css';*/
 
             NProgress.count = 0;
             NProgress.configure({

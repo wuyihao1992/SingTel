@@ -24,7 +24,8 @@
             var $this = $(this);
             var data = $this.data(), url = '';
 
-            url = origin + '/index.html#' + urlObj[data.key];
+            // url = origin + '/index.html#' + urlObj[data.key];
+            url = '../../../../index.html#' + urlObj[data.key];
             if (data.key == 'recharge') {
                 url += '?type=' + data.url;
             }
