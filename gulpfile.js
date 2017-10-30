@@ -39,7 +39,9 @@ var clearOption = {
 gulp.task('clean', function(cb) {
     return del([
         // 'build/**/*'
-        'build/css/**/*'
+        'build/css/**/*',
+        'build/js/**/*',
+        'build/img/**/*'
     ], cb);
 });
 
@@ -123,6 +125,11 @@ gulp.task('sass', function() {
         //.pipe(cleanCSS())
         .pipe(maps.write('.'))
         .pipe(gulp.dest('./build/css'));
+});
+
+gulp.task('JS', function () {
+    gulp.src(['./source/js/**/*']).pipe(gulp.dest('./build/js'));
+    gulp.src(['./source/img/**/*']).pipe(gulp.dest('./build/img'));
 });
 
 /**
