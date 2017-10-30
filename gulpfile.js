@@ -130,6 +130,7 @@ gulp.task('sass', function() {
 gulp.task('JS', function () {
     gulp.src(['./source/js/**/*']).pipe(gulp.dest('./build/js'));
     gulp.src(['./source/img/**/*']).pipe(gulp.dest('./build/img'));
+    gulp.src(['./view/**/*']).pipe(gulp.dest('./build/view'));
 });
 
 /**
