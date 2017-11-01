@@ -11,7 +11,7 @@ define(['conf'], function ($conf) {
     "use strict";
 
     return function (params, option, bfs) {
-        var apiUrl = location.origin + '/api/gateway';  // FIXME
+        var apiUrl = '/api/';  // FIXME
 
         var defaultOption = $.extend(true, {
             url: apiUrl,

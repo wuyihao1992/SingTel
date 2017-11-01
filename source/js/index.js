@@ -16,7 +16,7 @@
 
             "css": "../assets/js/css.min",
 
-            "api": "lib/api",
+            "api": "lib/API",
             "fun": "lib/fun"
         },
         shim: {}
@@ -72,6 +72,14 @@
             require(['css!' + cssUrl]);
             $.get(htmlUrl).done(function(html) {
                 var $html = $(html);
+
+                var reg = /recharge/gi;
+                if (url[0].match(reg)) {
+                    $.get('../../build/view/common/tips.html').done(function ($tips) {
+                        $html.append($tips);
+                    });
+                }
+
                 $('#mainContainer').html($html);    // $html 即为 $('#app')
 
                 require([jsUrl], function(func){

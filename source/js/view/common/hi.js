@@ -34,8 +34,10 @@
             $this.attr('target', '_blank');
         });
 
+        api(null, {type:'GET', url: '/api/pay/create'}).then();
+
         // 获取微信签名
-        api({url: location.href.split('#')[0]}, {url: 'getSignature'}).then(function (result) {
+        /*api({url: location.href.split('#')[0]}, {type:'GET', url:'http://gzh.cs229.com/web/api/pay/create'}).then(function (result) {
             var data = result.data;
             wx.config({
                 debug: true,
@@ -69,6 +71,6 @@
             });
         }, function () {
             
-        });
+        });*/
     };
 });

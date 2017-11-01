@@ -6,6 +6,9 @@
 
     return function ($html) {
         console.log($html);
+        // $.get('../../../build/view/common/tips.html').done(function ($tips) {
+        //     $html.append($tips);
+        // });
 
         var Charge = function () {
             this.fetchData = function () {
