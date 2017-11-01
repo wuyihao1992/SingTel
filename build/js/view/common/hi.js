@@ -6,7 +6,7 @@
     return function ($html) {
         console.log($html);
         // layer.msg('layer start success!');
-        fun.swal('Run Success!');
+        // fun.swal('Run Success!');
 
         var origin = location.origin;
         var urlObj = {
@@ -34,17 +34,14 @@
             $this.attr('target', '_blank');
         });
 
-        api(null, {type:'GET', url: 'api/pay/create'}).then();
-
         // 获取微信签名
-        /*api({url: location.href.split('#')[0]}, {type:'GET', url:'http://gzh.cs229.com/web/api/pay/create'}).then(function (result) {
-            var data = result.data;
+        api({url: location.href.split('#')[0]}, {type:'GET', url:'api/sign'}).then(function (result) {
             wx.config({
                 debug: true,
-                appId: data.appId,
-                timestamp: data.timestamp,
-                nonceStr: data.nonceStr,
-                signature: data.signature,
+                appId: result.appId,
+                timestamp: result.timestamp,
+                nonceStr: result.nonceStr,
+                signature: result.sign,
                 jsApiList: ["onMenuShareAppMessage", "onMenuShareTimeline", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone", "hideMenuItems"]
             });
             wx.ready(function () {
@@ -71,6 +68,6 @@
             });
         }, function () {
             
-        });*/
+        });
     };
 });
