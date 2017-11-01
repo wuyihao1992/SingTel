@@ -17,7 +17,7 @@ define(['conf'], function ($conf) {
             url: apiUrl,
             type: 'post',
             dataType: 'json',
-            data: JSON.stringify(params || {}),
+            data: params || {}, // JSON.stringify(params || {})
             contentType: 'application/json',
             beforeSend: function () {
                 !!bfs ? bfs() : (function () {})();
