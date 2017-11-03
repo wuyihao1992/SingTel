@@ -15,18 +15,21 @@
 
                         if (!!data) {
                             var resultList = fun.itemList(data);
-
+                            $('.r-tab__ul', $html).html(resultList.tabStr);
+                            $('.r-tabContent > ul', $html).html(resultList.contStr);
+                        }else {
+                            fun.swal('暂无套餐列表', 'error');
                         }
                     }
 
                 }, function () {
-                    
+                    fun.swal('请求失败，请稍后重试', 'error');
                 });
             };
 
             this.init = function () {
                 fun.jqInit();
-                // this.fetchData();
+                this.fetchData();
             }
         };
 
