@@ -224,8 +224,8 @@ define(function (require, exports, module) {
 
                 // var tips = '• 价格: ￥111.60\r\n\r\n• 【红利余额不能开通数据计划】\r\n\r\n• 有效期：50天\r\n\r\n• 红利账户：$12\r\n\r\n• 附加账户：\r\n\r\n• ➢本地话费：120分钟\r\n\r\n• 本地短信/流量：500条/350MB\r\n\r\n• 免费接听: 50天拨打 #100*2# 回复对应数字查询MCard$23计划余额';
                 var tips = subItem.item_content;
-                // tips = tips.replace(/\r/gi, '');
-                // tips = tips.replace(/\n/gi, '<br>');    // FIXME **\n 或者直接不处理
+                tips = tips.replace(/\r/gi, '');    // FIXME **\n 或者直接不处理
+                tips = tips.replace(/\n/gi, '<br>');
 
                 contItemStr += '<span class="r-item" data-id="'+ subItem.item_id +'" data-val="'+ subItem.item_price +'" data-tips="'+ tips +'">'+ subItem.item_name +'</span>';
 
