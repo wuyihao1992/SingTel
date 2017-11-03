@@ -31,7 +31,7 @@
             }
 
             $this.attr('href', url);
-            // $this.attr('target', '_blank');
+            $this.attr('target', '_self');
         });
 
         // 获取微信签名
