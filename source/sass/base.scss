@@ -100,22 +100,31 @@ $default-page-color: #00b1a5;
 .r-tab__ul li.active a{color: $default-page-color; border-bottom-color: $default-page-color;}
 
 .r-tabContent, .r-tabContent > ul, .r-tabContent > ul > li, .r-itemWrap{width: 100%;}
-//.r-tabContent > ul > li{display: block;}
+.r-tabContent > ul > li{
+    &:after{
+        @include _clear();
+    }
+}
 .r-tabContent .r-itemWrap{margin-bottom: 10px;}
-// margin: 4vw * 2
-.r-itemWrap .r-item{
-    display: inline-block;
-    width: calc((100% - 8vw) / 3);
+.r-item{
+    width: calc((100% - 4vw) / 3);  // margin: 2vw * 2
     height: 40px;
     line-height: 40px;
+    display: block;
+    float: left;
     border: 1px solid $default-page-color;
     border-radius: 4px;
     color: $default-page-color;
     text-align: center;
     cursor: pointer;
+    margin-bottom: 10px;
+
+    margin-right: 2vw;
+    &:nth-child(3n){margin-right: 0;}
+
+    &.active{color: #fff; background-color: $default-page-color;}
 }
-.r-itemWrap .r-item:not(:last-child){margin-right: 2vw;} // FIXME
-.r-itemWrap .r-item.active{color: #fff; background-color: $default-page-color;}
+//.r-item:not(:last-child){margin-right: 2vw;} // FIXME
 
 .r-tips{
 
@@ -259,8 +268,9 @@ table{
         //background-color: #fff;
         //color: #00b1a5;
         background-color: rgba(0, 177, 165, 0.8);
+        box-shadow: 0 1px 8px 1px rgba(0,0,0,.3);
         color: #fff;
-        z-index: 33;
+        z-index: 50;
 
         /*&:after{
             display: block;

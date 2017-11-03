@@ -81,7 +81,7 @@ define(function (require, exports, module) {
         });*/
     };
 
-    exports.jqInit = function (callback) {
+    exports.jqInit = function (buyCb, orderCb) {
         // 充值页面
         var $activeItem = $('.r-item.active');
         $(document).on('click', '.r-tab > ul > li', function (e) {
@@ -105,8 +105,6 @@ define(function (require, exports, module) {
         }).on('click', '.r-item', function (e) {
             var $this = $(e.target);
 
-            console.log($activeItem);
-
             if ($this.hasClass('active')) {
                 return;
             }
@@ -114,12 +112,18 @@ define(function (require, exports, module) {
             $this.addClass('active');
             $activeItem.removeClass('active');
 
-            // 修改金额
+            // 修改金额 & tips
             $('#money').html($this.data('val'));
+            $('.r-tips').html($this.data('tips') || '');
+
+            /*if (!!itemCb && typeof itemCb == 'function') {
+                itemCb.call(this, $this);
+            }*/
 
             $activeItem = $this;
-            console.log($activeItem);
+
             $this = null;
+
         }).on('click', '#buy', function (e) {
             var telNum = $('input[name="telNum"]').val();
 
@@ -136,9 +140,14 @@ define(function (require, exports, module) {
                 return false;
             }
 
+            // FIXME
+            if (!!buyCb && typeof buyCb == 'function') {
+                buyCb.call(this);
+            }
+
         });
 
-        // 订单
+        // 订单列表
         $(document).on('click', '.r-head__ul > li', function (e) {
             var $this = $(e.target);
 
@@ -152,11 +161,12 @@ define(function (require, exports, module) {
 
             $this.addClass('active').siblings().removeClass('active');
 
-            if (!!callback && typeof callback == 'function') {
+            // FIXME
+            if (!!orderCb && typeof orderCb == 'function') {
                 // callback.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
                 // callback.apply(this, [$this]);
                 // callback.call();
-                callback();
+                orderCb($this);
             }
         });
     };
@@ -181,6 +191,66 @@ define(function (require, exports, module) {
 
             $this = null; scrollTop = null; clientHeight = null; scrollHeight = null;
         });
+    };
+
+    // tips按钮
+    exports.getTips = function ($html) {
+        $.get('../../../build/view/common/tips.html').done(function ($tips) {
+            $html.append($tips);
+        });
+    };
+
+    /**
+     * 套餐类型
+     * @param data
+     * @returns {{tabStr: string, contStr: string}}
+     */
+    exports.itemList = function (data) {
+        var tabStr = '', contStr = '', index = 0;
+        for (var i in data) {
+            var item = data[i];
+
+            var tabClass =  '', contClass = 'r-hide';
+            if (index == 0) {
+                tabClass = 'active';
+                contClass = '';
+            }
+
+            tabStr += '<li class="'+ tabClass +'" data-type="'+ i +'"><a href="javascript:;">'+ i +'</a></li>';
+
+            var contItemStr = '';
+            for (var j in item) {
+                var subItem = item[j];
+
+                // var tips = '• 价格: ￥111.60\r\n\r\n• 【红利余额不能开通数据计划】\r\n\r\n• 有效期：50天\r\n\r\n• 红利账户：$12\r\n\r\n• 附加账户：\r\n\r\n• ➢本地话费：120分钟\r\n\r\n• 本地短信/流量：500条/350MB\r\n\r\n• 免费接听: 50天拨打 #100*2# 回复对应数字查询MCard$23计划余额';
+                var tips = subItem.item_content;
+                // tips = tips.replace(/\r/gi, '');
+                // tips = tips.replace(/\n/gi, '<br>');    // FIXME **\n 或者直接不处理
+
+                contItemStr += '<span class="r-item" data-id="'+ subItem.item_id +'" data-val="'+ subItem.item_price +'" data-tips="'+ tips +'">'+ subItem.item_name +'</span>';
+
+                tips= null; subItem = null;
+            }
+            contStr += '<li class="'+ contClass +'">'+ contItemStr +'</li>';
+
+            index++;
+
+            item = null; tabClass = null; contClass = null; contItemStr = null;
+        }
+
+        index = null;
+
+        return {tabStr: tabStr, contStr: contStr};
+    };
+
+    // order list
+    exports.orderList = function (data) {
+
+    };
+
+    // orderBack List
+    exports.orderBackList = function () {
+
     };
 
 });

@@ -35,7 +35,7 @@
         });
 
         // 获取微信签名
-        api({url: location.href.split('#')[0]}, {type:'GET', url:'api/sign'}).then(function (result) {
+        /*api({url: location.href.split('#')[0]}, {type:'GET', url:'api/sign'}).then(function (result) {
             wx.config({
                 debug: true,
                 appId: result.appId,
@@ -68,7 +68,7 @@
             });
         }, function () {
             
-        });
+        });*/
 
         $('#payTest').click(function () {
             api({}, {type:'GET', url:'api/pay/create'}).then(function (result) {
@@ -82,11 +82,12 @@
                 }, function (res) {
                     WeixinJSBridge.log(res.err_msg);
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
-                        layer.open({
+                        var layerIndex = layer.open({
                             title: false,
                             content: '恭喜您，支付成功！',
                             btn: ['我知道了'],
                             yes: function () {
+                                layer.close(layerIndex);
                                 location.href = "#/order/order";
                             },
                             cancel: function () {
