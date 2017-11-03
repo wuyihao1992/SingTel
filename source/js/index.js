@@ -80,6 +80,26 @@
                     });
                 }
 
+                /*$html.on('click', 'a', function (e) {
+                    var $this = $(e.target);
+                    var thisHref = $this.attr('href');
+                    if (!!thisHref && !thisHref.match(/javascript/gi)) {
+                        location.reload();
+                    }
+                });*/
+
+                window.onhashchange = function () {
+                    if (window.innerDocClick) {
+                        //Your own in-page mechanism triggered the hash change
+                        //alert('You click a link');
+                    } else {
+                        //Browser back button was clicked
+                        //alert('You click browser button');
+                    }
+
+                    location.reload();
+                };
+
                 $('#mainContainer').html($html);    // $html 即为 $('#app')
 
                 require([jsUrl], function(func){
