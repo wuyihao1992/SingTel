@@ -9,7 +9,7 @@
 
         var Charge = function () {
             this.fetchData = function () {
-                api({class_type: 'M1'}, {url: 'api/item_list'}).then(function (result) {
+                api({class_type: 'M1'}, {type: 'GET', url: 'api/item_list'}).then(function (result) {
                     if (result.status == 0){
                         var data = result.data;
 
