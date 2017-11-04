@@ -19,6 +19,12 @@ define(function (require, exports, module) {
         return null;
     };
 
+    /**
+     * 校验规则
+     * @param type 校验类型
+     * @param v    当前值
+     * @returns {{rule: boolean, msg: string}}
+     */
     exports.available = function (type, v) {
         var result = {rule: false, msg: ''};
 
@@ -47,6 +53,12 @@ define(function (require, exports, module) {
         return layer.load(1, {shade: [0.1, '#fff']});
     };
 
+    /**
+     *
+     * @param txt message
+     * @param type 提示类型 ['success', 'error', 'warning', 'info', 'question']
+     * @param callback 确定回调
+     */
     exports.swal = function (txt = '提示', type = 'success', callback) {
         swal({
             title: "",
@@ -81,8 +93,13 @@ define(function (require, exports, module) {
         });*/
     };
 
+    /**
+     * 初始化
+     * @param buyCb 套餐支付回调
+     * @param orderCb 订单列表回调
+     */
     exports.jqInit = function (buyCb, orderCb) {
-        // 充值页面
+        // recharge.html
         var $activeItem = $('.r-item.active');
         $(document).on('click', '.r-tab > ul > li', function (e) {
             var $this = $(e.target);
@@ -125,10 +142,13 @@ define(function (require, exports, module) {
             $this = null;
 
         }).on('click', '#buy', function (e) {
+            if ($('.r-tab > ul > li').length <= 0) {
+                return false;
+            }
+
             var telNum = $('input[name="telNum"]').val();
 
             var result = module.exports.available('phone', telNum);
-            console.log(result);
             if (result.rule == false) {
                 module.exports.swal(result.msg, 'warning');
                 return false;
@@ -140,14 +160,15 @@ define(function (require, exports, module) {
                 return false;
             }
 
-            // FIXME
-            if (!!buyCb && typeof buyCb == 'function') {
-                buyCb.call(this);
-            }
+            /*if (!!buyCb && typeof buyCb == 'function') {
+                buyCb.call(this, $activeItem);
+            }*/
 
+            var id = $activeItem.data('id');
+            module.exports.pay(id, telNum);
         });
 
-        // 订单列表
+        // order.html
         $(document).on('click', '.r-head__ul > li', function (e) {
             var $this = $(e.target);
 
@@ -161,12 +182,12 @@ define(function (require, exports, module) {
 
             $this.addClass('active').siblings().removeClass('active');
 
-            // FIXME
+            // FIXME 加载订单列表
             if (!!orderCb && typeof orderCb == 'function') {
-                // callback.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
+                orderCb.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
                 // callback.apply(this, [$this]);
                 // callback.call();
-                orderCb($this);
+                // orderCb($this);
             }
         });
     };
@@ -193,7 +214,10 @@ define(function (require, exports, module) {
         });
     };
 
-    // tips按钮
+    /**
+     * tips按钮
+     * @param $html 父级html节点，即$('#app')
+     */
     exports.getTips = function ($html) {
         $.get('../../../build/view/common/tips.html').done(function ($tips) {
             $html.append($tips);
@@ -243,14 +267,141 @@ define(function (require, exports, module) {
         return {tabStr: tabStr, contStr: contStr};
     };
 
-    // order list
-    exports.orderList = function (data) {
+    // FIXME
+    require(['api'], function (api) {
+        /**
+         * 套餐支付
+         * @param id 当前选中套餐id
+         * @param telNum 手机号码
+         */
+        exports.pay = function (id, telNum) {
+            var layerIndex = module.exports.layerLoad();
+            api({id: id, phone: telNum}, {type: 'GET', url: 'api/pay'}).then(function (result) {
+                layer.close(layerIndex);
 
+                if (result.status == 0) {
+                    WeixinJSBridge.invoke("getBrandWCPayRequest", {
+                        "appId": result.appId,          //公众号名称，由商户传入
+                        "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
+                        "nonceStr": result.nonceStr,    //随机串
+                        "package": result.package,
+                        "signType": 'MD5',              //微信签名方式
+                        "paySign": result.sign          //微信签名
+                    }, function (res) {
+                        WeixinJSBridge.log(res.err_msg);
+                        if (res.err_msg == "get_brand_wcpay_request:ok") {
+                            module.exports.swal("恭喜您，支付成功", 'success', function () {
+                                location.href = "#/order/order";
+                                location.reload();
+                            });
+                        }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                            module.exports.swal("支付已取消", 'warning');
+                        }else if (res.err_msg == "get_brand_wcpay_request:fail") {
+                            module.exports.swal("支付失败", 'warning');
+                        }
+                    });
+                }else {
+                    module.exports.swal('无此套餐类型', 'error');
+                }
+            }, function () {
+                layer.close(layerIndex);
+                module.exports.swal('签名失败，请稍后重试', 'error');
+            });
+        };
+
+        // 退款
+        exports.payBack = function () {
+
+        };
+    });
+
+    /**
+     * 订单列表
+     * @param data 后台列表
+     * @returns {string}
+     */
+    exports.orderList = function (data) {
+        var str = '';
+
+        for (var i in data) {
+            var item = data[i];
+            str += ''+
+            '<li data-id="" data-status="">'+
+                '<div class="r-article__ul--head"><i class="r-icon"></i><span class="r-code">商户单号：123456</span><span class="r-status">退款失败</span></div>'+
+                '<div class="r-article__ul--center">'+
+                    '<table class="r-marBot r-fullWidth">'+
+                        '<tr><td>手机号</td><td>产品类型</td><td>价格</td></tr>'+
+                        '<tr class="font-bold"><td>13800138000</td><td>主账户$10</td><td>¥10</td></tr>'+
+                    '</table>'+
+                    '<p class="r-time">'+ ((new Date().getTime()).pattern('yyyy-MM-dd hh:mm:ss')) +'</p>'+
+                    '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>'+
+                '</div>'+
+                '<!--<div class="r-article__ul&#45;&#45;foot parentFlex"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>-->'+
+            '</li>';
+        }
+
+        return str;
     };
 
-    // orderBack List
-    exports.orderBackList = function () {
+    /**
+     * 是否显示底部loading
+     * @param $obj 滚动元素
+     * @param $load loading元素
+     */
+    exports.isShowLoading = function ($obj, $load) {
+        var $this = $obj.get(0);
+        var scrollHeight = $this.scrollHeight,
+            clientHeight = $this.clientHeight;
 
+        if (scrollHeight >= clientHeight) {
+            $load.show();
+        }
+    };
+
+    /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
+     可以用 1-2 个占位符 * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) * eg: * (new
+     Date()).pattern("yyyy-MM-dd hh:mm:ss.S")==> 2006-07-02 08:09:04.423
+     * (new Date()).pattern("yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04
+     * (new Date()).pattern("yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04
+     * (new Date()).pattern("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04
+     * (new Date()).pattern("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18
+     */
+    Date.prototype.pattern = function(fmt) {
+        var o = {
+            "M+" : this.getMonth()+1,                                   //月份
+            "d+" : this.getDate(),                                      //日
+            "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12,   //小时
+            "H+" : this.getHours(),                                     //小时
+            "m+" : this.getMinutes(),                                   //分
+            "s+" : this.getSeconds(),                                   //秒
+            "q+" : Math.floor((this.getMonth()+3)/3),                   //季度
+            "S" : this.getMilliseconds()                                //毫秒
+        };
+        var week = {
+            "0" : "/u65e5",
+            "1" : "/u4e00",
+            "2" : "/u4e8c",
+            "3" : "/u4e09",
+            "4" : "/u56db",
+            "5" : "/u4e94",
+            "6" : "/u516d"
+        };
+
+        if(/(y+)/.test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+
+        if(/(E+)/.test(fmt)){
+            fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay() + ""]);
+        }
+
+        for(var k in o){
+            if(new RegExp("("+ k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+
+        return fmt;
     };
 
 });

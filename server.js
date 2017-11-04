@@ -13,16 +13,10 @@ var http = require('http');
 var URL = require('url').URL;
 
 var dev = {
-    0: new URL('http://192.168.1.90:10021/pmsSrv/api/api!gateway.action'),
     1: new URL('http://uat.hengtech.com.cn/pmsSrv/api/api!gateway.action'),
-    2: new URL('http://train.hengtech.com.cn/pmsSrv/api/api!gateway.action'),
-    3: new URL('http://wechat.kai-men.cn/pmsSrv/api/api!gateway.action'),
-    4: new URL('http://srv.sit.hengtech.com.cn/'),
 	5: new URL('http://gzh.cs229.com/')
 };
-var runRul = dev[5];	// TODO: 调试修改这里
-
-console.log(runRul);
+var runRul = dev[5];
 
 var proxySrv = function(req, res) {
     console.clear();
@@ -32,14 +26,14 @@ var proxySrv = function(req, res) {
     var options = {
         hostname: runRul.host,
         port: 80,
-        path: runRul.pathname + req.url,
+        path: runRul.pathname + '/web' + req.originalUrl,
         // path: '/pmsSrv' +  req.url,
         // path: req.url.replace(/^\/api/,''),
         // method: 'POST'
         method: 'GET'
     };
 
-    console.info('\nproxySrv Start...\n'+ 'hostname => ' + options.hostname, 'path => ' + options.path);
+    console.info('\nproxySrv Start...\n'+ 'hostname => ' + options.hostname + '\n', 'path => ' + options.path);
 
     var apiReq = http.request(options, apiRes => {
         apiRes.setEncoding('utf8');
@@ -52,7 +46,7 @@ var proxySrv = function(req, res) {
     });
 
     req.addListener('data', data => {
-        console.log('request data =>', data.toString());
+        console.log('request data =>', data.toString() + '\n');
         apiReq.write(data);
     });
     req.addListener('end', () => {
@@ -67,8 +61,9 @@ browserSync.init({
         // startPath: "/index.html",
         index: 'index.html',
         middleware: function(req, res, next) {
+            console.log(req, '\n');
             if (req.url.match(/api/)) {
-                console.log('req.url => ' + req.url);
+                console.log('req.url => ' + req.url, '\n');
                 proxySrv(req, res);
                 return;
             }

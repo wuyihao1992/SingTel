@@ -4,8 +4,6 @@
     // document.getElementById('app').innerHTML = 'Start Success! Welcome To hi.html!';
 
     return function ($html) {
-        console.log($html);
-        // layer.msg('layer start success!');
         // fun.swal('Run Success!');
 
         var origin = location.origin;
@@ -22,7 +20,7 @@
 
         $('[data-type="url"]').each(function () {
             var $this = $(this);
-            var data = $this.data(), url = '';
+            var data = $this.data(), url;
 
             url = origin + location.pathname + '#' + urlObj[data.key];
             // url = '../../../../index.html#' + urlObj[data.key];
@@ -73,12 +71,12 @@
         $('#payTest').click(function () {
             api({}, {type:'GET', url:'api/pay/create'}).then(function (result) {
                 WeixinJSBridge.invoke("getBrandWCPayRequest", {
-                    "appId": result.appId,     //公众号名称，由商户传入
-                    "timeStamp": result.timeStamp,         //时间戳，自1970年以来的秒数
-                    "nonceStr": result.nonceStr, //随机串
+                    "appId": result.appId,          //公众号名称，由商户传入
+                    "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
+                    "nonceStr": result.nonceStr,    //随机串
                     "package": result.package,
-                    "signType": 'MD5',         //微信签名方式：
-                    "paySign": result.sign//微信签名
+                    "signType": 'MD5',              //微信签名方式
+                    "paySign": result.sign          //微信签名
                 }, function (res) {
                     WeixinJSBridge.log(res.err_msg);
                     if (res.err_msg == "get_brand_wcpay_request:ok") {

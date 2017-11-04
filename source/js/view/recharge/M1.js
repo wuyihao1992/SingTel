@@ -5,8 +5,6 @@
     // $('#favicon').attr('href', 'https://www.baidu.com/favicon.ico');
 
     return function ($html) {
-        console.log($html);
-
         var Charge = function () {
             this.fetchData = function () {
                 api({class_type: 'M1'}, {type: 'GET', url: 'api/item_list'}).then(function (result) {
@@ -23,7 +21,7 @@
                     }
 
                 }, function () {
-                    fun.swal('请求失败，请稍后重试', 'error');
+                    fun.swal('获取套餐失败，请稍后重试', 'error');
                 });
             };
 
@@ -35,6 +33,5 @@
 
         var charge = new Charge();
         charge.init();
-
     };
 });
