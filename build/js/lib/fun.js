@@ -333,7 +333,7 @@ define(function (require, exports, module) {
                         '<tr><td>手机号</td><td>产品类型</td><td>价格</td></tr>'+
                         '<tr class="font-bold"><td>13800138000</td><td>主账户$10</td><td>¥10</td></tr>'+
                     '</table>'+
-                    '<p class="r-time">'+ ((new Date().getTime()).pattern('yyyy-MM-dd hh:mm:ss')) +'</p>'+
+                    '<p class="r-time">'+ ((new Date()).pattern('yyyy-MM-dd hh:mm:ss')) +'</p>'+
                     '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>'+
                 '</div>'+
                 '<!--<div class="r-article__ul&#45;&#45;foot parentFlex"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>-->'+
