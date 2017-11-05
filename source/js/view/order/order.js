@@ -109,9 +109,8 @@
                 _this.bizCont.page = 1;
                 _this.canLoadPage = true;
 
-                $('.r-article').animate({scrollTop: '0px'}, 1);
-                $('.r-article__ul').html('');                       // 清空
-                // _this.bizCont.class_type = $this.data('type');
+                $('.r-article', $html).animate({scrollTop: '0px'}, 1);
+                $('.r-article__ul', $html).html('');                       // 清空
                 _this.bizCont.class_name = $this.data('name');
                 _this.fetchData();
             };
@@ -154,16 +153,13 @@
 
                 // 初始化数据
                 var $activeTab = $('.r-head__ul .active', $html);
-                // _this.bizCont.class_type = $activeTab.data('type');
                 _this.bizCont.class_name = $activeTab.data('name');
                 $activeTab = null;
                 _this.fetchData();
-
             };
         };
 
         var order = new Order();
         order.init();
-
     };
 });

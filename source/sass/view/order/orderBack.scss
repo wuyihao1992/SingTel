@@ -4,8 +4,12 @@
 body{background-color: $color-bg; cursor: pointer;}
 
 .r-article{
-  height: calc(100% - 24px);
-  top: 0;
-  bottom: 24px;
-  padding-top: 0;
+    height: calc(100% - 24px);
+    top: 0;
+    bottom: 24px;
+    padding-top: 0;
+}
+
+.r-backMoney{
+    bottom: 0;
 }
