@@ -13,9 +13,9 @@
 
             // class_type: M1, StarHub, SingTel
             // class_name: 话费，套餐，流量
-            this.bizCont = {page: 1, class_type: '', class_name: ''};
-            // this.bizCont = {page: 1, class_type: '', class_name: '话费', bill_status: ''};    // 这是 我的订单 页面的报文
-            // this.bizCont = {page: 1, class_type: '', class_name: '', bill_status: '失败的订单'}; // 这是 申请退款 页面的报文
+            this.bizCont = {page: 1, class_name: 'calls', bill_status: []};
+            // this.bizCont = {page: 1, class_type: '', class_name: 'calls/package/flow', bill_status: []};    // 这是 我的订单 页面的报文
+            // this.bizCont = {page: 1, class_type: '', class_name: '', bill_status: [4, 5, 7]}; // 这是 申请退款 页面的报文
 
             this.canLoadPage = true;
 
@@ -111,7 +111,7 @@
 
                 $('.r-article').animate({scrollTop: '0px'}, 1);
                 $('.r-article__ul').html('');                       // 清空
-                _this.bizCont.class_type = $this.data('type');
+                // _this.bizCont.class_type = $this.data('type');
                 _this.bizCont.class_name = $this.data('name');
                 _this.fetchData();
             };
@@ -154,7 +154,7 @@
 
                 // 初始化数据
                 var $activeTab = $('.r-head__ul .active', $html);
-                _this.bizCont.class_type = $activeTab.data('type');
+                // _this.bizCont.class_type = $activeTab.data('type');
                 _this.bizCont.class_name = $activeTab.data('name');
                 $activeTab = null;
                 _this.fetchData();

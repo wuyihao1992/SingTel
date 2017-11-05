@@ -1,6 +1,10 @@
 define(function (require, exports, module) {
     "use strict";
 
+    // 配置
+    var bill_status = {3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中'},
+        class_name = {calls: '话费', package: '套餐', flow: '流量'};
+
     /**
      * 获取URL请求参数 (适用于report单页面url, http://localhost:8062/pms-report/html/main.html#/openDoor?userId=1537)
      * @param name
@@ -240,7 +244,7 @@ define(function (require, exports, module) {
                 contClass = '';
             }
 
-            tabStr += '<li class="'+ tabClass +'" data-type="'+ i +'"><a href="javascript:;">'+ i +'</a></li>';
+            tabStr += '<li class="'+ tabClass +'" data-type="'+ i +'"><a href="javascript:;">'+ class_name[i] +'</a></li>';
 
             var contItemStr = '';
             for (var j in item) {
@@ -326,7 +330,7 @@ define(function (require, exports, module) {
             var item = data[i];
 
             var num = (item.trade_num.length > 16 ? item.trade_num.substring(0, 16) : item.trade_num),
-                status = (item.bill_status ? '测试状态': '');
+                status = bill_status[item.bill_status] || '';
 
             str += ''+
             '<li data-id="" data-status="">'+
@@ -337,7 +341,7 @@ define(function (require, exports, module) {
                         '<tr class="font-bold"><td>'+ item.phone_number +'</td><td>'+ item.item +'</td><td>¥'+ item.price +'</td></tr>'+
                     '</table>'+
                     '<p class="r-time">'+ item.created_at +'</p>'+
-                    '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="'+ item.trade_num +'" data-test="error">退款测试</span></div>'+
+                    (status.match(/失败/gi) != null ? '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="'+ item.trade_num +'" data-test="error">退款测试</span></div>' : '') +
                 '</div>'+
                 // '<!--<div class="r-article__ul&#45;&#45;foot parentFlex"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>-->'+
             '</li>';

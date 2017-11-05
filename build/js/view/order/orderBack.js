@@ -11,7 +11,7 @@
 
             var _this = this;
 
-            this.bizCont = {page: 1, class_type: '', class_name: ''};   // FIXME 缺少status
+            this.bizCont = {page: 1, class_name: '', bill_status: [4, 5, 7]};
             this.canLoadPage = true;
 
             this.fetchData = function () {
