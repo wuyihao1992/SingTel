@@ -1,7 +1,7 @@
 !define(['conf', 'api', 'fun'], function ($conf, api, fun) {
     "ude strict";
 
-    document.title = '在线充值';
+    document.title = 'StarHub 在线充值';
     // $('#favicon').attr('href', 'https://www.baidu.com/favicon.ico');
 
     return function ($html) {

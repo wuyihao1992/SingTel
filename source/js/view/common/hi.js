@@ -1,16 +1,13 @@
 !define(['conf', 'api', 'fun'], function ($conf, api, fun) {
     console.log($conf);
     document.title = 'Hi';
-    // document.getElementById('app').innerHTML = 'Start Success! Welcome To hi.html!';
 
     return function ($html) {
-        // fun.swal('Run Success!');
-
         var origin = location.origin;
         var urlObj = {
             test: '',
             SingTel: '/recharge/SingTel',
-            Starhub: '/recharge/Starhub',
+            StarHub: '/recharge/StarHub',
             M1: '/recharge/M1',
             recharge: '/recharge/recharge',
             order: '/order/order',
@@ -18,7 +15,7 @@
             policy: '/common/policy'
         };
 
-        $('[data-type="url"]').each(function () {
+        $('[data-type="url"]', $html).each(function () {
             var $this = $(this);
             var data = $this.data(), url;
 
@@ -68,8 +65,8 @@
             
         });*/
 
-        $('#payTest').click(function () {
-            api({}, {type:'GET', url:'api/pay/create'}).then(function (result) {
+        $('#payTest', $html).click(function () {
+            api({}, {type:'GET', url: 'api/pay/create'}).then(function (result) {
                 WeixinJSBridge.invoke("getBrandWCPayRequest", {
                     "appId": result.appId,          //公众号名称，由商户传入
                     "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数

@@ -14,14 +14,12 @@ var URL = require('url').URL;
 
 var dev = {
     1: new URL('http://uat.hengtech.com.cn/pmsSrv/api/api!gateway.action'),
-	5: new URL('http://gzh.cs229.com/')
+	5: new URL('http://gzh.cs229.com')
 };
 var runRul = dev[5];
 
 var proxySrv = function(req, res) {
-    console.clear();
-
-    console.log(req);
+    console.log('\n req => \n', req, '\n');
 
     var options = {
         hostname: runRul.host,

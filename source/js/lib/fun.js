@@ -248,8 +248,7 @@ define(function (require, exports, module) {
 
                 // var tips = '• 价格: ￥111.60\r\n\r\n• 【红利余额不能开通数据计划】\r\n\r\n• 有效期：50天\r\n\r\n• 红利账户：$12\r\n\r\n• 附加账户：\r\n\r\n• ➢本地话费：120分钟\r\n\r\n• 本地短信/流量：500条/350MB\r\n\r\n• 免费接听: 50天拨打 #100*2# 回复对应数字查询MCard$23计划余额';
                 var tips = subItem.item_content;
-                tips = tips.replace(/\r/gi, '');    // FIXME **\n 或者直接不处理
-                tips = tips.replace(/\n/gi, '<br>');
+                tips = module.exports.formTips(tips);
 
                 contItemStr += '<span class="r-item" data-id="'+ subItem.item_id +'" data-val="'+ subItem.item_price +'" data-tips="'+ tips +'">'+ subItem.item_name +'</span>';
 
@@ -276,10 +275,10 @@ define(function (require, exports, module) {
          */
         exports.pay = function (id, telNum) {
             var layerIndex = module.exports.layerLoad();
-            api({id: id, phone: telNum}, {type: 'GET', url: 'api/pay'}).then(function (result) {
+            api({item_id: id, phone: telNum}, {type: 'GET', url: 'api/pay/create'}).then(function (result) {
                 layer.close(layerIndex);
 
-                if (result.status == 0) {
+                if (!!result && result.status == 0) {
                     WeixinJSBridge.invoke("getBrandWCPayRequest", {
                         "appId": result.appId,          //公众号名称，由商户传入
                         "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
@@ -325,19 +324,25 @@ define(function (require, exports, module) {
 
         for (var i in data) {
             var item = data[i];
+
+            var num = (item.trade_num.length > 16 ? item.trade_num.substring(0, 16) : item.trade_num),
+                status = (item.bill_status ? '测试状态': '');
+
             str += ''+
             '<li data-id="" data-status="">'+
-                '<div class="r-article__ul--head"><i class="r-icon"></i><span class="r-code">商户单号：123456</span><span class="r-status">退款失败</span></div>'+
+                '<div class="r-article__ul--head"><i class="r-icon"></i><span class="r-code">订单号：'+ num +'</span><span class="r-status">'+ status +'</span></div>'+
                 '<div class="r-article__ul--center">'+
                     '<table class="r-marBot r-fullWidth">'+
                         '<tr><td>手机号</td><td>产品类型</td><td>价格</td></tr>'+
-                        '<tr class="font-bold"><td>13800138000</td><td>主账户$10</td><td>¥10</td></tr>'+
+                        '<tr class="font-bold"><td>'+ item.phone_number +'</td><td>'+ item.item +'</td><td>¥'+ item.price +'</td></tr>'+
                     '</table>'+
-                    '<p class="r-time">'+ ((new Date()).pattern('yyyy-MM-dd hh:mm:ss')) +'</p>'+
-                    '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>'+
+                    '<p class="r-time">'+ item.created_at +'</p>'+
+                    '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="'+ item.trade_num +'" data-test="error">退款测试</span></div>'+
                 '</div>'+
-                '<!--<div class="r-article__ul&#45;&#45;foot parentFlex"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>-->'+
+                // '<!--<div class="r-article__ul&#45;&#45;foot parentFlex"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>-->'+
             '</li>';
+
+            item = null; num = null; status = null;
         }
 
         return str;
@@ -353,9 +358,25 @@ define(function (require, exports, module) {
         var scrollHeight = $this.scrollHeight,
             clientHeight = $this.clientHeight;
 
-        if (scrollHeight >= clientHeight) {
+        if (scrollHeight > clientHeight) {
             $load.show();
         }
+    };
+
+    /**
+     * 格式化tips
+     * @param tips
+     * @returns {*}
+     */
+    exports.formTips = function (tips) {
+        if (!!tips) {
+            tips = tips.replace(/\\r/gi, '');    // FIXME **\n 或者直接不处理
+            tips = tips.replace(/\\n/gi, '<br>');
+        }else {
+            tips = '';
+        }
+
+        return tips;
     };
 
     /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)

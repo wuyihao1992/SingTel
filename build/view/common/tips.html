@@ -1,15 +1,30 @@
 <div class="r-tipWrap" id="r-tipWrap">
     <div class="r-tipWrap--cri">Tips</div>
     <script>
-        $('#r-tipWrap').click(function () {
-            layer.open({
-                title: false,
-                btn: false,
-                area: ['88%', '88%'],
-                anim: 4,
-                scrollbar: false,
-                content: 'tips'
-            });
+        !define(['api', 'fun'], function (api) {
+            return function ($html) {
+                "use strict";
+
+                var tips = '';
+                api({text_name: 'tips'}, {url: 'api/text', type: 'GET'}).then(function (result) {
+                    if (!!result && result.status == 0) {
+                        tips = fun.formTips(result.data);
+                    }
+                }, function (err) {
+                    tips = 'error';
+                });
+
+                $('#r-tipWrap', $html).click(function () {
+                    layer.open({
+                        title: false,
+                        btn: false,
+                        area: ['88%', '88%'],
+                        anim: 4,
+                        scrollbar: false,
+                        content: tips
+                    });
+                });
+            }
         });
     </script>
 </div>
