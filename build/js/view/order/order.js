@@ -13,7 +13,7 @@
 
             // class_type: M1, StarHub, SingTel
             // class_name: 话费，套餐，流量
-            this.bizCont = {page: 1, class_name: 'calls', bill_status: []};
+            this.bizCont = {page: 1, class_name: 'calls'};
             // this.bizCont = {page: 1, class_type: '', class_name: 'calls/package/flow', bill_status: []};    // 这是 我的订单 页面的报文
             // this.bizCont = {page: 1, class_type: '', class_name: '', bill_status: [4, 5, 7]}; // 这是 申请退款 页面的报文
 
