@@ -26,8 +26,8 @@
             };
 
             this.init = function () {
-                fun.jqInit();
                 this.fetchData();
+                fun.jqInit();
             }
         };
 

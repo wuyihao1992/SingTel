@@ -20,6 +20,10 @@
             });
 
             $(document).on('click', '#r-tipWrap', function () {
+                if (tips == '') {
+                    return false;
+                }
+
                 layer.open({
                     title: false,
                     btn: false,
