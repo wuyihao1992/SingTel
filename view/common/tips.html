@@ -2,37 +2,46 @@
     <div class="r-tipWrap--cri">Tips</div>
     <script>
         $(function () {
-            !define(['fun'], function (fun) {
-                var tips = '';
-                $.ajax({
-                    type: 'GET',
-                    url: 'api/text',
-                    data: {text_name: 'tips'},
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (result) {
-                        if (!!result && result.status == 0) {
-                            tips = fun.formTips(result.data);
-                        }
-                    },
-                    error: function () {
-                        tips = '网络请求失败，请稍后重试';
-                    }
-                });
+            var formTips = function (tips) {
+                if (!!tips) {
+                    tips = tips.replace(/\\r/gi, '');    // FIXME **\n 或者直接不处理
+                    tips = tips.replace(/\\n/gi, '<br>');
+                }else {
+                    tips = '';
+                }
 
-                $(document).on('click', '#r-tipWrap', function () {
-                    if (tips == '') {
-                        return false;
-                    }
+                return tips;
+            };
 
-                    layer.open({
-                        title: false,
-                        btn: false,
-                        area: ['88%', '88%'],
-                        anim: 4,
-                        scrollbar: false,
-                        content: tips
-                    });
+            var tips = '';
+            $.ajax({
+                type: 'GET',
+                url: 'api/text',
+                data: {text_name: 'tips'},
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (result) {
+                    if (!!result && result.status == 0) {
+                        tips = formTips(result.data);
+                    }
+                },
+                error: function () {
+                    tips = '网络请求失败，请稍后重试';
+                }
+            });
+
+            $(document).on('click', '#r-tipWrap', function () {
+                if (tips == '') {
+                    return false;
+                }
+
+                layer.open({
+                    title: false,
+                    btn: false,
+                    area: ['88%', '88%'],
+                    anim: 4,
+                    scrollbar: false,
+                    content: tips
                 });
             });
         });
