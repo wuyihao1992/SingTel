@@ -1,7 +1,36 @@
 <div class="r-tipWrap" id="r-tipWrap">
     <div class="r-tipWrap--cri">Tips</div>
     <script>
-        !define(['api', 'fun'], function (api) {
+        $(function () {
+            var tips = '';
+            $.ajax({
+                type: 'GET',
+                url: 'api/text',
+                data: {text_name: 'tips'},
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (result) {
+                    if (!!result && result.status == 0) {
+                        tips = fun.formTips(result.data);
+                    }
+                },
+                error: function () {
+                    tips = '网络请求失败，请稍后重试';
+                }
+            });
+
+            $(document).on('click', '#r-tipWrap', function () {
+                layer.open({
+                    title: false,
+                    btn: false,
+                    area: ['88%', '88%'],
+                    anim: 4,
+                    scrollbar: false,
+                    content: tips
+                });
+            });
+        });
+        /*!define(['api', 'fun'], function (api) {
             return function ($html) {
                 "use strict";
 
@@ -25,6 +54,6 @@
                     });
                 });
             }
-        });
+        });*/
     </script>
 </div>
