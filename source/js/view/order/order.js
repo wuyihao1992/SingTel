@@ -120,17 +120,7 @@
 
                 $(document).on('click', '.r-click', function (e) {
                     var $this = $(e.target);
-                    var data = $this.data(),
-                        $parent = $this.parent();
-
-                    // FIXME: 退款操作 TODO: tests
-                    if (data.test == 'success') {
-                        fun.swal('退款成功');
-                        $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
-                        $parent.remove();
-                    }else {
-                        fun.swal('退款失败，请稍后重试', 'error');
-                    }
+                    fun.payBack($this);
                 });
 
                 $article.on('scroll', function () {

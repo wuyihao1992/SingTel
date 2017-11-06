@@ -312,9 +312,48 @@ define(function (require, exports, module) {
             });
         };
 
-        // 退款
-        exports.payBack = function () {
+        /**
+         * 退款
+         * @param $this $('.r-click')
+         * @param cb 成功回调
+         */
+        exports.payBack = function ($this, cb) {
+            var data = $this.data(),
+                $parent = $this.parent();
 
+            // TODO: tests
+            /*if (data.test == 'success') {
+                fun.swal('退款成功');
+                $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
+                $parent.remove();
+            }else {
+                fun.swal('退款失败，请稍后重试', 'error');
+            }*/
+
+            if (!!data.id) {
+                var layerIndex = module.exports.layerLoad();
+
+                api({id: data.id}, {url: 'api/pay/back'}).then(function (result) {
+                    layer.close(layerIndex);
+                    if (!!result && result.status == 0) {
+                        module.exports.swal("恭喜您，支付成功", 'success', function () {
+                            if (!!cb && typeof cb == 'function') {
+                                cb();
+                            }
+                        });
+
+                        // 按钮移到里面了
+                        $parent = $parent.parent();
+                        $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
+                        $parent.remove();
+                    }else {
+                        module.exports.swal('退款失败，请稍后重试', 'error');
+                    }
+                }, function () {
+                    layer.close(layerIndex);
+                    module.exports.swal('退款失败，请稍后重试', 'error');
+                });
+            }
         };
     });
 
