@@ -279,7 +279,7 @@ define(function (require, exports, module) {
          */
         exports.pay = function (id, telNum) {
             var layerIndex = module.exports.layerLoad();
-            api({item_id: id, phone: telNum}, {url: 'api/pay/create'}).then(function (result) {
+            api({item_id: id, phone: telNum}, {url: 'api/pay/create', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
                 layer.close(layerIndex);
 
                 if (!!result && result.status == 0) {
