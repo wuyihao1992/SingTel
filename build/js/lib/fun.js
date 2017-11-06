@@ -321,7 +321,7 @@ define(function (require, exports, module) {
             var data = $this.data(),
                 $parent = $this.parent();
 
-            // TODO: tests
+            // test
             /*if (data.test == 'success') {
                 fun.swal('退款成功');
                 $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
@@ -336,14 +336,13 @@ define(function (require, exports, module) {
                 api({id: data.id}, {url: 'api/pay/back'}).then(function (result) {
                     layer.close(layerIndex);
                     if (!!result && result.status == 0) {
-                        module.exports.swal("恭喜您，支付成功", 'success', function () {
+                        module.exports.swal("恭喜您，退款成功", 'success', function () {
                             if (!!cb && typeof cb == 'function') {
                                 cb();
                             }
                         });
 
-                        // 按钮移到里面了
-                        $parent = $parent.parent();
+                        $parent = $parent.parent();     // 按钮移到里面了
                         $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
                         $parent.remove();
                     }else {
