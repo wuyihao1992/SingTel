@@ -2,35 +2,37 @@
     <div class="r-tipWrap--cri">Tips</div>
     <script>
         $(function () {
-            var tips = '';
-            $.ajax({
-                type: 'GET',
-                url: 'api/text',
-                data: {text_name: 'tips'},
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function (result) {
-                    if (!!result && result.status == 0) {
-                        tips = fun.formTips(result.data);
+            !define(['fun'], function (fun) {
+                var tips = '';
+                $.ajax({
+                    type: 'GET',
+                    url: 'api/text',
+                    data: {text_name: 'tips'},
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        if (!!result && result.status == 0) {
+                            tips = fun.formTips(result.data);
+                        }
+                    },
+                    error: function () {
+                        tips = '网络请求失败，请稍后重试';
                     }
-                },
-                error: function () {
-                    tips = '网络请求失败，请稍后重试';
-                }
-            });
+                });
 
-            $(document).on('click', '#r-tipWrap', function () {
-                if (tips == '') {
-                    return false;
-                }
+                $(document).on('click', '#r-tipWrap', function () {
+                    if (tips == '') {
+                        return false;
+                    }
 
-                layer.open({
-                    title: false,
-                    btn: false,
-                    area: ['88%', '88%'],
-                    anim: 4,
-                    scrollbar: false,
-                    content: tips
+                    layer.open({
+                        title: false,
+                        btn: false,
+                        area: ['88%', '88%'],
+                        anim: 4,
+                        scrollbar: false,
+                        content: tips
+                    });
                 });
             });
         });

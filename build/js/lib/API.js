@@ -11,7 +11,7 @@ define(['conf'], function ($conf) {
     "use strict";
 
     return function (params, option, bfs) {
-        var apiUrl = '/api/';  // FIXME
+        var apiUrl = '';  // FIXME
 
         var defaultOption = $.extend(true, {
             url: apiUrl,
