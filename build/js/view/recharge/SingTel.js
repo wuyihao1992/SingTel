@@ -7,7 +7,7 @@
     return function ($html) {
         var Charge = function () {
             this.fetchData = function () {
-                api({class_type: 'SingTel'}, {type: 'GET', url: 'api/item_list'}).then(function (result) {
+                api({class_type: 'SingTel'}, {type: 'GET', url: 'api/item_list', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
                     if (result.status == 0){
                         var data = result.data;
 
