@@ -321,7 +321,6 @@ define(function (require, exports, module) {
             var data = $this.data(),
                 $parent = $this.parent();
 
-            // test
             /*if (data.test == 'success') {
                 fun.swal('退款成功');
                 $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');

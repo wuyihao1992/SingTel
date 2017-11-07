@@ -282,7 +282,7 @@ define(function (require, exports, module) {
             api({item_id: id, phone: telNum}, {url: 'api/pay/create', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
                 layer.close(layerIndex);
 
-                if (!!result && result.status == 0) {
+                if (!!result && !!result.appId) {
                     WeixinJSBridge.invoke("getBrandWCPayRequest", {
                         "appId": result.appId,          //公众号名称，由商户传入
                         "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
@@ -304,11 +304,11 @@ define(function (require, exports, module) {
                         }
                     });
                 }else {
-                    module.exports.swal('无此套餐类型', 'error');
+                    module.exports.swal('签名失败，请稍后重试', 'error');
                 }
             }, function () {
                 layer.close(layerIndex);
-                module.exports.swal('签名失败，请稍后重试', 'error');
+                module.exports.swal('请求失败，请稍后重试', 'error');
             });
         };
 
@@ -321,7 +321,6 @@ define(function (require, exports, module) {
             var data = $this.data(),
                 $parent = $this.parent();
 
-            // test
             /*if (data.test == 'success') {
                 fun.swal('退款成功');
                 $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
