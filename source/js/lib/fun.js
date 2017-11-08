@@ -270,7 +270,6 @@ define(function (require, exports, module) {
         return {tabStr: tabStr, contStr: contStr};
     };
 
-    // FIXME
     require(['api'], function (api) {
         /**
          * 套餐支付
@@ -333,7 +332,7 @@ define(function (require, exports, module) {
             if (!!data.id) {
                 var layerIndex = module.exports.layerLoad();
 
-                api({id: data.id}, {url: 'api/pay/back'}).then(function (result) {
+                api({trade_num: data.id}, {url: 'api/refund', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
                     layer.close(layerIndex);
                     if (!!result && result.status == 0) {
                         module.exports.swal("恭喜您，退款成功", 'success', function () {
@@ -350,7 +349,7 @@ define(function (require, exports, module) {
                     }
                 }, function () {
                     layer.close(layerIndex);
-                    module.exports.swal('退款失败，请稍后重试', 'error');
+                    module.exports.swal('请求失败，请稍后重试', 'error');
                 });
             }
         };
@@ -379,7 +378,7 @@ define(function (require, exports, module) {
                         '<tr class="font-bold"><td>'+ item.phone_number +'</td><td>'+ item.item +'</td><td>¥'+ item.price +'</td></tr>'+
                     '</table>'+
                     '<p class="r-time">'+ item.created_at +'</p>'+
-                    (status.match(/失败/gi) != null ? '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="'+ item.trade_num +'" data-test="error">退款测试</span></div>' : '') +
+                    (status.match(/失败/gi) != null ? '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="'+ item.trade_num +'" data-test="error">申请退款</span></div>' : '') +
                 '</div>'+
                 // '<!--<div class="r-article__ul&#45;&#45;foot parentFlex"><span class="r-click" data-id="2" data-test="error">申请退款</span></div>-->'+
             '</li>';
