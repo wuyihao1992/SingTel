@@ -4,8 +4,8 @@
         $(function () {
             var formTips = function (tips) {
                 if (!!tips) {
-                    tips = tips.replace(/\\r/gi, '');    // FIXME **\n 或者直接不处理
-                    tips = tips.replace(/\\n/gi, '<br>');
+                    tips = tips.replace(/\r|\\r/mg, ' ');
+                    tips = tips.replace(/\n|\\n/gi, '<br>');
                 }else {
                     tips = '';
                 }

@@ -9,5 +9,6 @@
 /js/index.bak2.js
 /js/index.es6.js
 /js/index.bak.js
+*/**/test.*
 *.xlsx
 */**/*.xlsx

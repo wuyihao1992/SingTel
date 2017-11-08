@@ -343,7 +343,7 @@ define(function (require, exports, module) {
 
                         $parent = $parent.parent();     // 按钮移到里面了
                         $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
-                        $parent.remove();
+                        $this.remove();
                     }else {
                         module.exports.swal('退款失败，请稍后重试', 'error');
                     }
@@ -411,8 +411,10 @@ define(function (require, exports, module) {
      */
     exports.formTips = function (tips) {
         if (!!tips) {
-            tips = tips.replace(/\\r/gi, '');    // FIXME **\n 或者直接不处理
-            tips = tips.replace(/\\n/gi, '<br>');
+            // tips = tips.replace(/\\r/gi, '');    // FIXME **\n 或者直接不处理
+            // tips = tips.replace(/\\n/gi, '<br>');
+            tips = tips.replace(/\r|\\r/mg, ' ');
+            tips = tips.replace(/\n|\\n/gi, '<br>');
         }else {
             tips = '';
         }
