@@ -36,6 +36,13 @@ define(function (require, exports, module) {
             var rules = {
                 "phone": {
                     rule: function(v) {
+                        if(v.length>8) return false;
+                        return /^[8|9][0-9]{7}$/i.test(v.trim());
+                    },
+                    msg: "请输入正确的手机号码"
+                },
+                "chinaPhone": {
+                    rule: function(v) {
                         if(v.length>11) return false;
                         return /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i.test(v.trim());
                     },
