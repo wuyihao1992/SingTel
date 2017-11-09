@@ -165,7 +165,7 @@ define(function (require, exports, module) {
                 return false;
             }
 
-            console.log($activeItem);
+            // console.log($activeItem);
             if ($activeItem.length <= 0) {
                 module.exports.swal('请选择套餐类型', 'warning');
                 return false;
@@ -193,7 +193,6 @@ define(function (require, exports, module) {
 
             $this.addClass('active').siblings().removeClass('active');
 
-            // FIXME 加载订单列表
             if (!!orderCb && typeof orderCb == 'function') {
                 orderCb.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
                 // callback.apply(this, [$this]);
@@ -242,6 +241,15 @@ define(function (require, exports, module) {
      */
     exports.itemList = function (data) {
         var tabStr = '', contStr = '', index = 0;
+
+        var tempKey = {'calls': 0, 'package': 1, 'flow': 2},
+            tempType = {0: 'calls', 1: 'package', 2: 'flow'};
+        // 排序
+        for (var i in data) {
+            data[tempKey[i]] = data[i];
+            delete data[i];
+        }
+
         for (var i in data) {
             var item = data[i];
 
@@ -251,7 +259,7 @@ define(function (require, exports, module) {
                 contClass = '';
             }
 
-            tabStr += '<li class="'+ tabClass +'" data-type="'+ i +'"><a href="javascript:;">'+ class_name[i] +'</a></li>';
+            tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ class_name[tempType[i]] +'</a></li>';
 
             var contItemStr = '';
             for (var j in item) {
@@ -272,7 +280,7 @@ define(function (require, exports, module) {
             item = null; tabClass = null; contClass = null; contItemStr = null;
         }
 
-        index = null;
+        index = null; tempKey = null; tempType = null;
 
         return {tabStr: tabStr, contStr: contStr};
     };

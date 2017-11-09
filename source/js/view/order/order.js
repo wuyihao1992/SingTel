@@ -37,7 +37,12 @@
                         }else {
                             _this.canLoadPage = false;
 
-                            $load.html('没有更多数据');
+                            if (_this.bizCont.page == 1) {
+                                $load.show();
+                                $load.html('您没有'+ $conf.class_name[_this.bizCont.class_name] +'订单详情，请选择查看其他类型的订单。');
+                            }else {
+                                $load.html('没有更多数据');
+                            }
                         }
                     }else {
                         _this.canLoadPage = true;
