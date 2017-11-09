@@ -297,7 +297,7 @@ define(function (require, exports, module) {
                                 location.reload();
                             });
                         }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-                            module.exports.swal("支付已取消", 'warning');
+                            module.exports.swal("支付已取消", 'info');
                         }else if (res.err_msg == "get_brand_wcpay_request:fail") {
                             module.exports.swal("支付失败", 'warning');
                         }

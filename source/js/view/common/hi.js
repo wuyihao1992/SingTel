@@ -66,37 +66,33 @@
         });*/
 
         $('#payTest', $html).click(function () {
-            api({}, {type:'GET', url: 'api/pay/create'}).then(function (result) {
-                WeixinJSBridge.invoke("getBrandWCPayRequest", {
-                    "appId": result.appId,          //公众号名称，由商户传入
-                    "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
-                    "nonceStr": result.nonceStr,    //随机串
-                    "package": result.package,
-                    "signType": 'MD5',              //微信签名方式
-                    "paySign": result.sign          //微信签名
-                }, function (res) {
-                    WeixinJSBridge.log(res.err_msg);
-                    if (res.err_msg == "get_brand_wcpay_request:ok") {
-                        var layerIndex = layer.open({
-                            title: false,
-                            content: '恭喜您，支付成功！',
-                            btn: ['我知道了'],
-                            yes: function () {
-                                layer.close(layerIndex);
+            api({item_id: '1234567890n', phone: '13800138000'}, {url: 'api/pay/create', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
+                if (result && result.appId) {
+                    WeixinJSBridge.invoke("getBrandWCPayRequest", {
+                        "appId": result.appId,          //公众号名称，由商户传入
+                        "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
+                        "nonceStr": result.nonceStr,    //随机串
+                        "package": result.package,
+                        "signType": 'MD5',              //微信签名方式
+                        "paySign": result.sign          //微信签名
+                    }, function (res) {
+                        WeixinJSBridge.log(res.err_msg);
+                        if (res.err_msg == "get_brand_wcpay_request:ok") {
+                            fun.swal("恭喜您，支付成功", 'success', function () {
                                 location.href = "#/order/order";
-                            },
-                            cancel: function () {
-                                location.href = "#/order/order";
-                            }
-                        });
-                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-                        alert("支付已取消！");
-                    }else if (res.err_msg == "get_brand_wcpay_request:fail") {
-                        alert("支付失败！");
-                    }
-                });
+                                location.reload();
+                            });
+                        }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                            module.exports.swal("支付已取消", 'info');
+                        }else if (res.err_msg == "get_brand_wcpay_request:fail") {
+                            module.exports.swal("支付失败", 'warning');
+                        }
+                    });
+                }else {
+                    fun.swal('签名失败，请稍后重试', 'error');
+                }
             }, function () {
-                layer.msg("签名失败！");
+                module.exports.swal('请求失败，请稍后重试', 'error');
             });
         });
 
