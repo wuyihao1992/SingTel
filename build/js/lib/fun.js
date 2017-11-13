@@ -415,10 +415,10 @@ define(function (require, exports, module) {
             clientHeight = $this.clientHeight;
 
         if (scrollHeight > clientHeight) {
-        	$load.html('<div class="load6"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+        	// $load.html('<div class="load6"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
             $load.show();
         }else{
-        	$load.html('');
+        	// $load.html('');
         }
     };
 
