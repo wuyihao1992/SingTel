@@ -31,10 +31,10 @@
 
 // ##### html start #####
 .r-mainContainer {width: 100%; height: 100%; overflow: hidden;}
-#app{width: 100%; height: 100%; overflow-x: hidden; font-size: 1.3rem;}
+#app{width: 100%; height: 100%; overflow-x: hidden; font-size: 1.4rem;}
 
 // ### recharge.html ###
-.r-header{position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - 8.84% - 24px); padding-top: 4vw; overflow-y: auto; }
+.r-header{position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - 8.84% - 24px); padding-top: 5.2vw; overflow-y: auto; }
 
 .r-footer{
     position: absolute;
@@ -233,6 +233,10 @@ $default-page-color: #00b1a5;
 .r-btnWrap .r-click{display: inline-block; padding: 4px 4vw; border: 1px solid #00b1a5; border-radius: 29px;text-align: center; color: #00b1a5; font-weight: 700;}
 
 table{
+    [row="1"]{width: 40%;}
+    [row="2"]{width: 40%;}
+    [row="3"]{width: 20%;}
+
     .font-bold{
         td{font-weight: 700;}
     }

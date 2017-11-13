@@ -41,11 +41,14 @@
                                 $load.show();
                                 $load.html('您没有'+ $conf.class_name[_this.bizCont.class_name] +'订单详情，请选择查看其他类型的订单。');
                             }else {
+                            	$load.show();
                                 $load.html('没有更多数据');
                             }
                         }
                     }else {
-                        _this.canLoadPage = true;
+                    	_this.canLoadPage = true;
+                    	$load.show();
+                        $load.html('没有更多数据');
                     }
                 }, function () {
                     _this.canLoadPage = true;
@@ -117,6 +120,11 @@
                 $('.r-article', $html).animate({scrollTop: '0px'}, 1);
                 $('.r-article__ul', $html).html('');                       // 清空
                 _this.bizCont.class_name = $this.data('name');
+
+                // loading
+                $load.html('<div class="load6"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+                $load.hide();
+
                 _this.fetchData();
             };
 

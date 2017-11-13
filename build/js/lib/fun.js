@@ -167,7 +167,7 @@ define(function (require, exports, module) {
 
             // console.log($activeItem);
             if ($activeItem.length <= 0) {
-                module.exports.swal('请选择套餐类型', 'warning');
+                module.exports.swal('请选择产品', 'warning');
                 return false;
             }
 
@@ -389,8 +389,8 @@ define(function (require, exports, module) {
                 '<div class="r-article__ul--head"><i class="r-icon"></i><span class="r-code">订单号：'+ num +'</span><span class="r-status">'+ status +'</span></div>'+
                 '<div class="r-article__ul--center">'+
                     '<table class="r-marBot r-fullWidth">'+
-                        '<tr><td>手机号</td><td>产品类型</td><td>价格</td></tr>'+
-                        '<tr class="font-bold"><td>'+ item.phone_number +'</td><td>'+ item.item +'</td><td>¥'+ item.price +'</td></tr>'+
+                        '<tr><td row="1">手机号</td><td row="2">产品类型</td><td row="3">价格</td></tr>'+
+                        '<tr class="font-bold"><td row="1">'+ item.phone_number +'</td><td row="2">'+ item.item +'</td><td row="3">¥'+ item.price +'</td></tr>'+
                     '</table>'+
                     '<p class="r-time">'+ item.created_at +'</p>'+
                     (status.match(/失败/gi) != null ? '<div class="parentFlex r-btnWrap"><span class="r-click" data-id="'+ item.trade_num +'" data-test="error">申请退款</span></div>' : '') +
@@ -415,7 +415,10 @@ define(function (require, exports, module) {
             clientHeight = $this.clientHeight;
 
         if (scrollHeight > clientHeight) {
+        	$load.html('<div class="load6"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
             $load.show();
+        }else{
+        	$load.html('');
         }
     };
 
