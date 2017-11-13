@@ -414,11 +414,11 @@ define(function (require, exports, module) {
         var scrollHeight = $this.scrollHeight,
             clientHeight = $this.clientHeight;
 
+        $load.show();
         if (scrollHeight > clientHeight) {
-        	// $load.html('<div class="load6"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
-            $load.show();
+        	$load.html('<div class="load6"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
         }else{
-        	// $load.html('');
+        	$load.html('没有更多数据');
         }
     };
 
