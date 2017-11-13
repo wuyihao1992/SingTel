@@ -31,9 +31,9 @@
                             fun.isShowLoading($article, $load);
                         }else {
                             _this.canLoadPage = false;
+                            $load.show();
 
                             if (_this.bizCont.page == 1) {
-                                $load.show();
                                 $load.html('您没有任何充值失败的订单，如有疑问，请联系客服。');
                             }else {
                                 $load.html('没有更多数据');
