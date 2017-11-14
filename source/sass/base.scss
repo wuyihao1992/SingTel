@@ -23,6 +23,7 @@
 .r-padLR4{padding: 0 4vw;}
 .r-borBot{border-bottom: 1px solid #dedddd;}
 .r-marBot{margin-bottom: 15px;}
+.r-marBot10{margin-bottom: 10px;}
 .r-hide{display: none;}
 .r-fullWidth{width: 100%;}
 .r-textCenter{text-align: center;}
@@ -63,7 +64,7 @@
 
 .r-tit{height: 32px; line-height: 32px; font-size: 1.4rem;}
 
-.r-phoneWrap{width: 100%; height: 32px; line-height: 32px;}
+.r-phoneWrap{width: 100%; height: 36px; line-height: 36px;}
 .r-phoneWrap .r-phoneWrap--span{display: inline-block; float: left;}
 .r-phoneWrap .r-phoneWrap__L{min-width: 40px; width: 15%; margin-right: 2%; text-align: center; font-size: 1.4rem;}
 .r-phoneWrap .r-phoneWrap__m{width: 1px; height: 100%; margin-right: 2%; border-right: 1px solid $color-border; box-shadow: -1px 0px 10px 0px rgba(0,0,0,0.25);}
