@@ -22,10 +22,10 @@ body, html{
     tap-highlight-color: rgba(0,0,0,0);
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     // 禁止iOS用户选中文字
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    //user-select: none;
+    //-webkit-user-select: none;
+    //-moz-user-select: none;
+    //-ms-user-select: none;
     // 禁止设备弹出列表按钮
     -webkit-touch-callout: none;
     -ms-text-size-adjust: 100%;
@@ -84,6 +84,7 @@ a{
 
 input{
     background-image: none;
+    font-size: 1.6rem;
 
     &[type=password], &[type=datetime], &[type=datetime-local], &[type=date], &[type=month],
     &[type=time], &[type=week], &[type=number], &[type=email], &[type=url], &[type=search],

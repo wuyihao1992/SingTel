@@ -131,6 +131,8 @@ $default-page-color: #00b1a5;
 //.r-item:not(:last-child){margin-right: 2vw;} // FIXME
 
 .r-tips{
+    line-height: 1.8rem;
+
     > li{list-style: disc;}
 }
 .r-backMoney{position: absolute; left: 0; bottom: 8.84%; text-align: center; width: 100%; height: 24px; line-height: 24px;}
