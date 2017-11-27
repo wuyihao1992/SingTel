@@ -359,6 +359,8 @@ define(function (require, exports, module) {
                         $parent = $parent.parent();     // 按钮移到里面了
                         $parent.siblings('.r-article__ul--head').find('.r-status').html('退款处理中');
                         $this.remove();
+
+                        location.reload();
                     }else {
                         module.exports.swal('退款失败，请稍后重试', 'error');
                     }
