@@ -350,7 +350,7 @@ define(function (require, exports, module) {
                 api({trade_num: data.id}, {url: 'api/refund', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
                     layer.close(layerIndex);
                     if (!!result && result.status == 0) {
-                        module.exports.swal("已提交退款申请，将在1-3的工作日之内退还", 'success', function () {
+                        module.exports.swal('退款申请已提交，将在1-3个工作日内退还', 'success', function () {
                             if (!!cb && typeof cb == 'function') {
                                 cb();
                             }
