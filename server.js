@@ -13,9 +13,10 @@ var http = require('http');
 var URL = require('url').URL;
 
 var dev = {
-	5: new URL('http://gzh.cs229.com')
+	5: new URL('http://gzh.cs229.com'),
+    6: new URL('http://singaporetopup.com')
 };
-var runRul = dev[5];
+var runRul = dev[6];
 
 var proxySrv = function(req, res) {
     console.log('\n req => \n', req, '\n');

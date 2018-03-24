@@ -16,8 +16,8 @@
 
             "css": "../assets/js/css.min",
 
-            "api": "lib/API",
-            "fun": "lib/fun"
+            "api": "lib/API.min",
+            "fun": "lib/fun"                // FIXME
         },
         shim: {}
     });
@@ -40,7 +40,7 @@
             }else {
                 htmlUrl = '../../build/view' + url[0] + '.html';
             }
-            jsUrl = '../../build/js/view' + url[0] + '.js';
+            jsUrl = '../../build/js/view' + url[0] + '.min.js';
             cssUrl = '../../build/css/view' + url[0] + '.css';
 
             /*if (url.length > 1){

@@ -285,92 +285,153 @@ define(function (require, exports, module) {
         return {tabStr: tabStr, contStr: contStr};
     };
 
-    require(['api'], function (api) {
-        /**
-         * 套餐支付
-         * @param id 当前选中套餐id
-         * @param telNum 手机号码
-         */
-        exports.pay = function (id, telNum) {
-            var layerIndex = module.exports.layerLoad();
-            api({item_id: id, phone: telNum}, {url: 'api/pay/create', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
-                layer.close(layerIndex);
+    /**
+     * 套餐支付
+     * @param id 当前选中套餐id
+     * @param telNum 手机号码
+     */
+    exports.pay = function (id, telNum) {
+        var layerIndex = module.exports.layerLoad();
 
-                if (!!result && !!result.appId) {
-                    WeixinJSBridge.invoke("getBrandWCPayRequest", {
-                        "appId": result.appId,          //公众号名称，由商户传入
-                        "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
-                        "nonceStr": result.nonceStr,    //随机串
-                        "package": result.package,
-                        "signType": 'MD5',              //微信签名方式
-                        "paySign": result.sign          //微信签名
-                    }, function (res) {
-                        WeixinJSBridge.log(res.err_msg);
-                        if (res.err_msg == "get_brand_wcpay_request:ok") {
-                            module.exports.swal("恭喜您，支付成功", 'success', function () {
-                                location.href = "#/order/order";
-                                location.reload();
-                            });
-                        }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-                            module.exports.swal("支付已取消", 'info');
-                        }else if (res.err_msg == "get_brand_wcpay_request:fail") {
-                            module.exports.swal("支付失败", 'warning');
+        $.ajax({
+            url: 'api/pay/create',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {item_id: id, phone: telNum}
+        }).then(function (result) {
+            layer.close(layerIndex);
+
+            if (!!result && !!result.appId) {
+                WeixinJSBridge.invoke("getBrandWCPayRequest", {
+                    "appId": result.appId,          //公众号名称，由商户传入
+                    "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
+                    "nonceStr": result.nonceStr,    //随机串
+                    "package": result.package,
+                    "signType": 'MD5',              //微信签名方式
+                    "paySign": result.sign          //微信签名
+                }, function (res) {
+                    WeixinJSBridge.log(res.err_msg);
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        module.exports.swal("恭喜您，支付成功", 'success', function () {
+                            location.href = "#/order/order";
+                            location.reload();
+                        });
+                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                        module.exports.swal("支付已取消", 'info');
+                    }else if (res.err_msg == "get_brand_wcpay_request:fail") {
+                        module.exports.swal("支付失败", 'warning');
+                    }
+                });
+            }else {
+                module.exports.swal('签名失败，请稍后重试', 'error');
+            }
+        }, function () {
+            layer.close(layerIndex);
+            module.exports.swal('请求失败，请稍后重试', 'error');
+        });
+
+        /*api({item_id: id, phone: telNum}, {url: 'api/pay/create', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
+            layer.close(layerIndex);
+
+            if (!!result && !!result.appId) {
+                WeixinJSBridge.invoke("getBrandWCPayRequest", {
+                    "appId": result.appId,          //公众号名称，由商户传入
+                    "timeStamp": result.timeStamp,  //时间戳，自1970年以来的秒数
+                    "nonceStr": result.nonceStr,    //随机串
+                    "package": result.package,
+                    "signType": 'MD5',              //微信签名方式
+                    "paySign": result.sign          //微信签名
+                }, function (res) {
+                    WeixinJSBridge.log(res.err_msg);
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        module.exports.swal("恭喜您，支付成功", 'success', function () {
+                            location.href = "#/order/order";
+                            location.reload();
+                        });
+                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                        module.exports.swal("支付已取消", 'info');
+                    }else if (res.err_msg == "get_brand_wcpay_request:fail") {
+                        module.exports.swal("支付失败", 'warning');
+                    }
+                });
+            }else {
+                module.exports.swal('签名失败，请稍后重试', 'error');
+            }
+        }, function () {
+            layer.close(layerIndex);
+            module.exports.swal('请求失败，请稍后重试', 'error');
+        });*/
+    };
+
+    /**
+     * 退款
+     * @param $this $('.r-click')
+     * @param cb 成功回调
+     */
+    exports.payBack = function ($this, cb) {
+        var data = $this.data(),
+            $parent = $this.parent();
+
+        // test delete
+        /*if (data.test == 'success') {
+            fun.swal('退款成功');
+            $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
+            $parent.remove();
+        }else {
+            fun.swal('退款失败，请稍后重试', 'error');
+        }*/
+
+        if (!!data.id) {
+            var layerIndex = module.exports.layerLoad();
+
+            $.ajax({
+                url: 'api/refund',
+                contentType: 'application/x-www-form-urlencoded',
+                data: {trade_num: data.id}
+            }).then(function (result) {
+                layer.close(layerIndex);
+                if (!!result && result.status == 0) {
+                    module.exports.swal('退款申请已提交，将在1-3个工作日内退还', 'success', function () {
+                        if (!!cb && typeof cb == 'function') {
+                            cb();
                         }
+
+                        location.reload();
                     });
+
+                    $parent = $parent.parent();     // 按钮移到里面了
+                    $parent.siblings('.r-article__ul--head').find('.r-status').html('退款处理中');
+                    $this.remove();
                 }else {
-                    module.exports.swal('签名失败，请稍后重试', 'error');
+                    module.exports.swal('退款失败，请稍后重试', 'error');
                 }
             }, function () {
                 layer.close(layerIndex);
                 module.exports.swal('请求失败，请稍后重试', 'error');
             });
-        };
 
-        /**
-         * 退款
-         * @param $this $('.r-click')
-         * @param cb 成功回调
-         */
-        exports.payBack = function ($this, cb) {
-            var data = $this.data(),
-                $parent = $this.parent();
+            /*api({trade_num: data.id}, {url: 'api/refund', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
+                layer.close(layerIndex);
+                if (!!result && result.status == 0) {
+                    module.exports.swal('退款申请已提交，将在1-3个工作日内退还', 'success', function () {
+                        if (!!cb && typeof cb == 'function') {
+                            cb();
+                        }
 
-            // test delete
-            /*if (data.test == 'success') {
-                fun.swal('退款成功');
-                $parent.siblings('.r-article__ul--head').find('.r-status').html('退款成功');
-                $parent.remove();
-            }else {
-                fun.swal('退款失败，请稍后重试', 'error');
-            }*/
+                        location.reload();
+                    });
 
-            if (!!data.id) {
-                var layerIndex = module.exports.layerLoad();
-
-                api({trade_num: data.id}, {url: 'api/refund', contentType: 'application/x-www-form-urlencoded'}).then(function (result) {
-                    layer.close(layerIndex);
-                    if (!!result && result.status == 0) {
-                        module.exports.swal('退款申请已提交，将在1-3个工作日内退还', 'success', function () {
-                            if (!!cb && typeof cb == 'function') {
-                                cb();
-                            }
-
-                            location.reload();
-                        });
-
-                        $parent = $parent.parent();     // 按钮移到里面了
-                        $parent.siblings('.r-article__ul--head').find('.r-status').html('退款处理中');
-                        $this.remove();
-                    }else {
-                        module.exports.swal('退款失败，请稍后重试', 'error');
-                    }
-                }, function () {
-                    layer.close(layerIndex);
-                    module.exports.swal('请求失败，请稍后重试', 'error');
-                });
-            }
-        };
-    });
+                    $parent = $parent.parent();     // 按钮移到里面了
+                    $parent.siblings('.r-article__ul--head').find('.r-status').html('退款处理中');
+                    $this.remove();
+                }else {
+                    module.exports.swal('退款失败，请稍后重试', 'error');
+                }
+            }, function () {
+                layer.close(layerIndex);
+                module.exports.swal('请求失败，请稍后重试', 'error');
+            });*/
+        }
+    };
 
     /**
      * 订单列表

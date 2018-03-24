@@ -128,10 +128,23 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('JS', function () {
-    gulp.src(['./source/js/**/*']).pipe(gulp.dest('./build/js'));
+var jsList = ['./build/js/', './build/js/lib/', './build/js/view/common/', './build/js/view/order/', './build/js/view/recharge/'];
+gulp.task('copyJS', function () {
+    gulp.src(['./source/js/**/*']).pipe(gulp.dest('./build/js/'));  // 先复制
+})
+gulp.task('JS', ['copyJS'], function () {
     gulp.src(['./source/img/**/*']).pipe(gulp.dest('./build/img'));
     gulp.src(['./view/**/*']).pipe(gulp.dest('./build/view'));
+
+    // gulp.src(jsList[0] + '*.js').pipe(maps.init()).pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(maps.write('.')).pipe(gulp.dest(jsList[0]));
+
+    gulp.src('./build/js/index.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest('./build/js/'));
+    gulp.src('./build/js/lib/API.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest('./build/js/lib/'));
+    // gulp.src(jsList[1] + 'fun.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[1]));     // FIXME
+    gulp.src(jsList[2] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[2]));
+    gulp.src(jsList[3] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[3]));
+    gulp.src(jsList[4] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[4]));
+
 });
 
 /**
