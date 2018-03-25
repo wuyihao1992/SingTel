@@ -43,7 +43,7 @@
                 htmlUrl = '../../' + testPath + 'build/view' + url[0] + '.html';
             }
             jsUrl = '../../' + testPath + 'build/js/view' + url[0] + '.min.js';
-            cssUrl = '../../' + testPath + 'build/css/view' + url[0] + '.css';
+            cssUrl = '../../build/css/view' + url[0] + '.css';
 
             /*if (url.length > 1){
                 htmlUrl = $conf.view + url[0] + '.html?' + url[1];
