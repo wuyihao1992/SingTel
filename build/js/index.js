@@ -23,6 +23,8 @@
     });
 
     require([], function (){
+        var testPath = $conf.dev ? 'test/' : '';
+
         var url = location.hash.replace(/#/, '').split('?'),
             htmlUrl = '',
             jsUrl = '',
@@ -36,12 +38,12 @@
             }
 
             if (url.length > 1){
-                htmlUrl = '../../build/view' + url[0] + '.html?' + url[1];
+                htmlUrl = '../../' + testPath + 'build/view' + url[0] + '.html?' + url[1];
             }else {
-                htmlUrl = '../../build/view' + url[0] + '.html';
+                htmlUrl = '../../' + testPath + 'build/view' + url[0] + '.html';
             }
-            jsUrl = '../../build/js/view' + url[0] + '.min.js';
-            cssUrl = '../../build/css/view' + url[0] + '.css';
+            jsUrl = '../../' + testPath + 'build/js/view' + url[0] + '.min.js';
+            cssUrl = '../../' + testPath + 'build/css/view' + url[0] + '.css';
 
             /*if (url.length > 1){
                 htmlUrl = $conf.view + url[0] + '.html?' + url[1];
@@ -75,7 +77,7 @@
 
                 var reg = /recharge/gi;
                 if (url[0].match(reg)) {
-                    $.get('../../build/view/common/tips.html').done(function ($tips) {
+                    $.get('../../' + testPath + 'build/view/common/tips.html').done(function ($tips) {
                         $html.append($tips);
                     });
                 }
