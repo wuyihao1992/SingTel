@@ -1,5 +1,5 @@
 !define(['conf', 'api', 'fun'], function ($conf, api, fun) {
-    "ude strict";
+    "use strict";
 
     document.title = '申请退款';
     // $('#favicon').attr('href', 'https://www.baidu.com/favicon.ico');
