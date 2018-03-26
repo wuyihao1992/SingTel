@@ -8,13 +8,15 @@
         test = fun.formTips(test);
         $('#test').html(test);*/
         
-        api({text_name: 'refund_policy'}, {url: 'api/text', type: 'GET'}).then(function (result) {
-            if (result.status == 0) {
-                var data = fun.formTips(result.data);
-                $('#policy', $html).html(data);
-            }
-        }, function (err) {
+        $(function () {
+            api({text_name: 'refund_policy'}, {url: 'api/text', type: 'GET'}).then(function (result) {
+                if (result.status == 0) {
+                    var data = fun.formTips(result.data);
+                    $('#policy', $html).html(data);
+                }
+            }, function (err) {
 
+            });
         });
     }
 });

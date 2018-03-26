@@ -246,6 +246,7 @@ define(function (require, exports, module) {
             tempType = {0: 'calls', 1: 'package', 2: 'flow'};
 
         // 排序
+        // i = 话费 套餐 流量
         for (var i in data) {
             data[tempKey[i]] = data[i];
             delete data[i];
