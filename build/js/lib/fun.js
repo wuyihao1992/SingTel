@@ -236,14 +236,15 @@ define(function (require, exports, module) {
 
     /**
      * 套餐类型
-     * @param data
+     * @param data {话费: [{}], 套餐: [{}], 流量: [{}]}
      * @returns {{tabStr: string, contStr: string}}
      */
     exports.itemList = function (data) {
         var tabStr = '', contStr = '', index = 0;
 
-        var tempKey = {'calls': 0, 'package': 1, 'flow': 2},
+        var tempKey = {'话费': 0, '套餐': 1, '流量': 2},
             tempType = {0: 'calls', 1: 'package', 2: 'flow'};
+
         // 排序
         for (var i in data) {
             data[tempKey[i]] = data[i];
@@ -260,6 +261,7 @@ define(function (require, exports, module) {
             }
 
             tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ class_name[tempType[i]] +'</a></li>';
+            // tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ i +'</a></li>';
 
             var contItemStr = '';
             for (var j in item) {

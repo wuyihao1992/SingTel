@@ -11,7 +11,7 @@
                     if (result.status == 0){
                         var data = result.data;
 
-                        if (!!data) {
+                        if (data) {
                             var resultList = fun.itemList(data);
                             $('.r-tab__ul', $html).html(resultList.tabStr);
                             $('.r-tabContent > ul', $html).html(resultList.contStr);
