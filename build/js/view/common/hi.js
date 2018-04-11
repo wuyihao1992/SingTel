@@ -12,7 +12,8 @@
             recharge: '/recharge/recharge',
             order: '/order/order',
             orderBack: '/order/orderBack',
-            policy: '/common/policy'
+            policy: '/common/policy',
+            update: '/common/update'
         };
 
         $('[data-type="url"]', $html).each(function () {
