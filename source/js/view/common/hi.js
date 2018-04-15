@@ -13,7 +13,9 @@
             order: '/order/order',
             orderBack: '/order/orderBack',
             policy: '/common/policy',
-            update: '/common/update'
+            update: '/common/update',
+            member: '/personal/member',
+            pointRecord: '/personal/pointRecord'
         };
 
         $('[data-type="url"]', $html).each(function () {
