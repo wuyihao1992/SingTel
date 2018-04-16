@@ -23,16 +23,15 @@
 
                 var $slidIcon = $('.memberLi-icon-slid', $this);
 
+                // 当前状态=》打开的
                 if ($this.hasClass('opened')) {
-                    // 打开的状态
                     $this.find('.memberLi-descWrap').hide();
                     $this.removeClass('opened');
-                    $slidIcon.removeClass('opened');
-                } else {
-                    // 关闭的状态
+                    $slidIcon.removeClass('opened').addClass('closed');
+                } else {    // 当前状态=》关闭的
                     $this.find('.memberLi-descWrap').show();
                     $this.addClass('opened');
-                    $slidIcon.addClass('opened');
+                    $slidIcon.removeClass('closed').addClass('opened');
                 }
 
                 $this = null; $slidIcon = null;
