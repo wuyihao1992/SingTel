@@ -5,23 +5,7 @@ define(function (require, exports, module) {
     var bill_status = {1: '创建成功', 2: '支付成功', 3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中', 9: '充值处理中'},  // {3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中'}
         class_name = {calls: '话费', package: '套餐', flow: '流量'};
 
-    /**
-     * 获取URL请求参数 (适用于report单页面url, http://localhost:8062/pms-report/html/main.html#/openDoor?userId=1537)
-     * @param name
-     * @returns {null}
-     */
-    exports.getReportQueryString = function(name) {
-        var url = window.location.href;
-
-        var arr = url.split('?');
-        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-
-        var result = arr[1].match(reg);
-        if (result != null) {
-            return unescape(result[2]);
-        }
-        return null;
-    };
+    var storageKey = 'telList'; // 缓存字段
 
     /**
      * 校验规则
@@ -200,93 +184,104 @@ define(function (require, exports, module) {
                 // orderCb($this);
             }
         });
-    };
 
-    /**
-     * scroll 下拉刷新
-     * @param $obj
-     */
-    exports.$scroll = function ($obj) {
-        $obj.on('scroll', function () {
-            var $this = $obj.get(0);
-            var scrollTop = $this.scrollTop,        // 当前滚动距离
-                clientHeight = $this.clientHeight,  // 元素可见区域高度
-                scrollHeight = $this.scrollHeight;  // 元素文档内容总高度
+        // 手机号码缓存下拉
+        $(document).on('focus', '[name="telNum"]',  function (e) {
+            var $this = $(e.target);
 
-            // 如果底部有loading，则需减去loading高度
-            // var loadHeight = $('.m-idWrap__ul li.m-liMore').height();
-            // scrollHeight = scrollHeight - loadHeight;
-            if ((scrollTop + clientHeight) >= scrollHeight) {
-                // ajax
+            var telList = new LocalData().get(storageKey);
+            if (telList) {
+                var $storageWrap = $('.storageWrap');
+
+                if ($storageWrap.length > 0) {
+                    $storageWrap.fadeIn();
+                } else {
+                    var $storage = $(renderStorageList(telList));
+                    var inputHeight = $this.outerHeight(true),
+                        inputWidth = $this.outerWidth(true),
+                        offsetTop = $this.offset().top;
+
+                    $storage.css({
+                        'top': inputHeight + offsetTop,
+                        'min-width': inputWidth * 0.6 + 'px'
+                    });
+
+                    $('body').append($storage);
+                    $storage.fadeIn();
+
+                    $storage = null; inputHeight = null; inputWidth = null; offsetTop = null;
+                }
+
+                $storageWrap = null;
             }
 
-            $this = null; scrollTop = null; clientHeight = null; scrollHeight = null;
+            $this = null; telList = null;
+        }).on('blur', '[name="telNum"]', function (e) {
+            var $storageWrap = $('.storageWrap');
+            if ($storageWrap.length > 0) {
+                $storageWrap.fadeOut();
+            }
+            $storageWrap = null;
+        });
+
+        $(document).on('click', '[data-name="telNum"]', function (e) {
+            var $this = $(e.target);
+            var $telNum = $('[name="telNum"]');
+
+            if ($telNum.length > 0) {
+                $telNum.val($this.data('value'));
+            }
+
+            $this = null; $telNum = null;
         });
     };
 
     /**
-     * tips按钮
-     * @param $html 父级html节点，即$('#app')
+     * 缓存电话号码
+     * @param telNum 电话号码
      */
-    exports.getTips = function ($html) {
-        $.get('../../../build/view/common/tips.html').done(function ($tips) {
-            $html.append($tips);
-        });
-    };
+    exports.setSingTelStorage = function (telNum) {
+        var telList = new LocalData().get(storageKey);
+        if (telList) {
+            // 去重
+            var flag = false;
+            for (var i = 0, len = telList.length; i< len; i++) {
+                if (telNum == telList[i]) {
+                    flag = true;
+                    break;
+                }
+            }
 
+            if (!flag) {
+                telList.push(telNum);
+                new LocalData().set(storageKey, telList);
+            }
+        } else {
+            new LocalData().set(storageKey, [telNum]);
+        }
+    };
     /**
-     * 套餐类型
-     * @param data {话费: [{}], 套餐: [{}], 流量: [{}]}
-     * @returns {{tabStr: string, contStr: string}}
+     * 渲染缓存电话号码下拉列表
+     * @param telList 电话号码列表
+     * @returns {string|*}
      */
-    exports.itemList = function (data) {
-        var tabStr = '', contStr = '', index = 0;
+    function renderStorageList(telList) {
+        var storageWrap,
+            liStr = '';
 
-        var tempKey = {'话费': 0, '套餐': 1, '流量': 2},
-            tempType = {0: 'calls', 1: 'package', 2: 'flow'};
-
-        // 排序
-        // i = 话费 套餐 流量
-        for (var i in data) {
-            data[tempKey[i]] = data[i];
-            delete data[i];
+        for (var i = 0; i < telList.length; i++) {
+            liStr += '<li data-name="telNum" data-value="'+ telList[i] +'">' + telList[i] + '</li>';
         }
 
-        for (var i in data) {
-            var item = data[i];
+        storageWrap = '' +
+            '<div class="storageWrap">' +
+            '<ul class="storageUl">' + liStr + '</ul>' +
+            '</div>';
 
-            var tabClass =  '', contClass = 'r-hide';
-            if (index == 0) {
-                tabClass = 'active';
-                contClass = '';
-            }
+        liStr = null;
 
-            tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ class_name[tempType[i]] +'</a></li>';
-            // tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ i +'</a></li>';
-
-            var contItemStr = '';
-            for (var j in item) {
-                var subItem = item[j];
-
-                // var tips = '• 价格: ￥111.60\r\n\r\n• 【红利余额不能开通数据计划】\r\n\r\n• 有效期：50天\r\n\r\n• 红利账户：$12\r\n\r\n• 附加账户：\r\n\r\n• ➢本地话费：120分钟\r\n\r\n• 本地短信/流量：500条/350MB\r\n\r\n• 免费接听: 50天拨打 #100*2# 回复对应数字查询MCard$23计划余额';
-                var tips = subItem.item_content;
-                tips = module.exports.formTips(tips);
-
-                contItemStr += '<span class="r-item" data-id="'+ subItem.item_id +'" data-val="'+ subItem.item_price +'" data-tips="'+ tips +'">'+ subItem.item_name +'</span>';
-
-                tips= null; subItem = null;
-            }
-            contStr += '<li class="'+ contClass +'">'+ contItemStr +'</li>';
-
-            index++;
-
-            item = null; tabClass = null; contClass = null; contItemStr = null;
-        }
-
-        index = null; tempKey = null; tempType = null;
-
-        return {tabStr: tabStr, contStr: contStr};
-    };
+        return storageWrap;
+    }
 
     /**
      * 套餐支付
@@ -314,6 +309,8 @@ define(function (require, exports, module) {
                 }, function (res) {
                     WeixinJSBridge.log(res.err_msg);
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        module.exports.setSingTelStorage(telNum);   // 缓存手机号码
+
                         module.exports.swal("恭喜您，支付成功", 'success', function () {
                             location.href = "#/order/order";
                             location.reload();
@@ -489,6 +486,46 @@ define(function (require, exports, module) {
     };
 
     /**
+     * 获取URL请求参数 (适用于report单页面url, http://localhost:8062/pms-report/html/main.html#/openDoor?userId=1537)
+     * @param name
+     * @returns {null}
+     */
+    exports.getReportQueryString = function(name) {
+        var url = window.location.href;
+
+        var arr = url.split('?');
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+
+        var result = arr[1].match(reg);
+        if (result != null) {
+            return unescape(result[2]);
+        }
+        return null;
+    };
+
+    /**
+     * scroll 下拉刷新
+     * @param $obj
+     */
+    exports.$scroll = function ($obj) {
+        $obj.on('scroll', function () {
+            var $this = $obj.get(0);
+            var scrollTop = $this.scrollTop,        // 当前滚动距离
+                clientHeight = $this.clientHeight,  // 元素可见区域高度
+                scrollHeight = $this.scrollHeight;  // 元素文档内容总高度
+
+            // 如果底部有loading，则需减去loading高度
+            // var loadHeight = $('.m-idWrap__ul li.m-liMore').height();
+            // scrollHeight = scrollHeight - loadHeight;
+            if ((scrollTop + clientHeight) >= scrollHeight) {
+                // ajax
+            }
+
+            $this = null; scrollTop = null; clientHeight = null; scrollHeight = null;
+        });
+    };
+
+    /**
      * 格式化tips
      * @param tips
      * @returns {*}
@@ -505,6 +542,230 @@ define(function (require, exports, module) {
 
         return tips;
     };
+
+    /**
+     * tips按钮
+     * @param $html 父级html节点，即$('#app')
+     */
+    exports.getTips = function ($html) {
+        $.get('../../../build/view/common/tips.html').done(function ($tips) {
+            $html.append($tips);
+        });
+    };
+
+    /**
+     * 套餐类型
+     * @param data {话费: [{}], 套餐: [{}], 流量: [{}]}
+     * @returns {{tabStr: string, contStr: string}}
+     */
+    exports.itemList = function (data) {
+        var tabStr = '', contStr = '', index = 0;
+
+        var tempKey = {'话费': 0, '套餐': 1, '流量': 2},
+            tempType = {0: 'calls', 1: 'package', 2: 'flow'};
+
+        // 排序
+        // i = 话费 套餐 流量
+        for (var i in data) {
+            data[tempKey[i]] = data[i];
+            delete data[i];
+        }
+
+        for (var i in data) {
+            var item = data[i];
+
+            var tabClass =  '', contClass = 'r-hide';
+            if (index == 0) {
+                tabClass = 'active';
+                contClass = '';
+            }
+
+            tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ class_name[tempType[i]] +'</a></li>';
+            // tabStr += '<li class="'+ tabClass +'" data-type="'+ tempType[i] +'"><a href="javascript:;">'+ i +'</a></li>';
+
+            var contItemStr = '';
+            for (var j in item) {
+                var subItem = item[j];
+
+                // var tips = '• 价格: ￥111.60\r\n\r\n• 【红利余额不能开通数据计划】\r\n\r\n• 有效期：50天\r\n\r\n• 红利账户：$12\r\n\r\n• 附加账户：\r\n\r\n• ➢本地话费：120分钟\r\n\r\n• 本地短信/流量：500条/350MB\r\n\r\n• 免费接听: 50天拨打 #100*2# 回复对应数字查询MCard$23计划余额';
+                var tips = subItem.item_content;
+                tips = module.exports.formTips(tips);
+
+                contItemStr += '<span class="r-item" data-id="'+ subItem.item_id +'" data-val="'+ subItem.item_price +'" data-tips="'+ tips +'">'+ subItem.item_name +'</span>';
+
+                tips= null; subItem = null;
+            }
+            contStr += '<li class="'+ contClass +'">'+ contItemStr +'</li>';
+
+            index++;
+
+            item = null; tabClass = null; contClass = null; contItemStr = null;
+        }
+
+        index = null; tempKey = null; tempType = null;
+
+        return {tabStr: tabStr, contStr: contStr};
+    };
+
+    /**
+     * 设置缓存值
+     * @param key 主键
+     * @param value 值
+     * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }
+     */
+    function setStorage(key, value, storageType) {
+        if (Object.prototype.toString.call(value) === '[object Object]' || Object.prototype.toString.call(value) === '[object Array]') {
+            value = JSON.stringify(value);
+        }
+
+        if (!!storageType && storageType === 1) {
+            sessionStorage.setItem(key, value);
+        } else {
+            localStorage.setItem(key, value);
+        }
+    }
+
+    /**
+     * 获取缓存
+     * @param key 主键
+     * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }
+     * @param isJSON 是否返回JSON，{true: 返回JSON , false: 返回String }
+     * @returns {*}
+     */
+    function getStorage(key, storageType, isJSON) {
+        var value;
+
+        if (!!storageType && storageType === 1) {
+            value = sessionStorage.getItem(key);
+        } else {
+            value = localStorage.getItem(key);
+        }
+
+        if (!!isJSON) {
+            try {
+                value = JSON.parse(value);
+            } catch (err) {
+                console.warn('value is not a JSON string =>', err);
+            }
+        }
+
+        return value;
+    }
+
+    /**
+     * 删除缓存
+     * @param key 主键
+     * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }
+     */
+    function removeStorage(key, storageType) {
+        if (!!storageType && storageType === 1) {
+            sessionStorage.removeItem(key);
+        } else {
+            localStorage.removeItem(key);
+        }
+    }
+
+    /**
+     * 兼容性本地化存储方案封装
+     * 调用:
+     * new LocalData().set('xxx', 123)
+     * new LocalData().get('xxx')
+     * new LocalData().remove('xxx')
+     */
+    function LocalData() {
+        this.hname = location.hostname ? location.hostname : 'localStatus';
+
+        this.isLocalStorage = !!window.sessionStorage;              // 用于判断sessionStorage是否可用
+
+        this.dataDom = null;
+
+        /**
+         * 当window.sessionStorage和window.localStorage不可用，则将数据存在dom节点
+         * @param key 主键，由set()或get()方法传入
+         * @returns {boolean}
+         */
+        this.initDom = function (key) {
+            if (!this.dataDom) {
+                try {
+                    this.dataDom = document.createElement('input'); // 这里使用hidden的input元素
+                    this.dataDom.type = 'hidden';
+                    this.dataDom.style.display = 'none';
+                    this.dataDom.setAttribute('id', key);
+
+                    document.body.appendChild(this.dataDom);
+
+                    return true;
+                } catch (err) {
+                    return false;
+                }
+            } else {
+                return true;
+            }
+        };
+
+        /**
+         * 存储
+         * @param key 主键
+         * @param value 值
+         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }, 默认为1
+         */
+        this.set = function (key, value, storageType = 1) {
+            if (this.isLocalStorage) {
+                setStorage(key, value, storageType);
+            } else {
+                if (this.initDom(key)) {
+                    if (Object.prototype.toString.call(value) === '[object Object]' || Object.prototype.toString.call(value) === '[object Array]') {
+                        value = JSON.stringify(value);
+                    }
+
+                    this.dataDom.value = value;
+                }
+            }
+        };
+
+        /**
+         * 获取
+         * @param key 主键
+         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }, 默认为1
+         * @param isJSON 是否返回JSON，{true: 返回JSON , false: 返回String }, 默认为true
+         * @returns {string | *}
+         */
+        this.get = function (key, storageType = 1, isJSON = true) {
+            if (this.isLocalStorage) {
+                return getStorage(key, storageType, isJSON);
+            } else {
+                if (this.initDom(key)) {
+                    var value = this.dataDom.value;
+
+                    if (isJSON) {
+                        try {
+                            value = JSON.parse(value);
+                        } catch (err) {
+                            console.warn('value is not a JSON string =>', err);
+                        }
+                    }
+
+                    return value;
+                }
+            }
+        };
+
+        /**
+         * 删除存储
+         * @param key 主键
+         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }
+         */
+        this.remove = function (key, storageType) {
+            if (this.isLocalStorage) {
+                removeStorage(key, storageType);
+            } else {
+                if (this.initDom(key)) {
+                    document.body.removeChild(this.dataDom);
+                    this.dataDom = null;
+                }
+            }
+        };
+    }
 
     /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
      可以用 1-2 个占位符 * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) * eg: * (new
