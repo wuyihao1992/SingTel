@@ -116,7 +116,11 @@
                     for (var i in data) {
                         var item = data[i];
 
-                        var color = item.value.indexOf('-') > -1 ? 'r-colorBlue' : 'r-colorRed';
+                        var color = '';
+                        if (item.value !== '') {
+                            color = (item.value).toString().indexOf('-') > -1 ? 'r-colorBlue' : 'r-colorRed';
+                        }
+
                         var pointStr = '<div class="record__point '+ color +'">'+ item.value +'</div>';
 
                         str += '<li>' +
