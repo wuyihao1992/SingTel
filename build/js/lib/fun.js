@@ -89,154 +89,6 @@ define(function (require, exports, module) {
     };
 
     /**
-     * 初始化
-     * @param buyCb 套餐支付回调
-     * @param orderCb 订单列表回调
-     */
-    exports.jqInit = function (buyCb, orderCb) {
-        // recharge.html
-        var $activeItem = $('.r-item.active');
-        $(document).on('click', '.r-tab > ul > li', function (e) {
-            var $this = $(e.target);
-
-            if ($this.is('a')) {
-                $this = $this.parent('li');
-            }
-
-            if ($this.hasClass('active')) {
-                return;
-            }
-
-            var activeIndex = $('.r-tab > ul > li').index($this);
-            var $tabContent = $('.r-tabContent > ul > li');
-
-            $this.addClass('active').siblings().removeClass('active');
-            $tabContent.eq(activeIndex).show().siblings().hide();
-
-            $this = null; activeIndex = null; $tabContent = null;
-        }).on('click', '.r-item', function (e) {
-            var $this = $(e.target);
-
-            if ($this.hasClass('active')) {
-                return;
-            }
-
-            $this.addClass('active');
-            $activeItem.removeClass('active');
-
-            // 修改金额 & tips
-            $('#money').html($this.data('val'));
-            $('.r-tips').html($this.data('tips') || '');
-
-            /*if (!!itemCb && typeof itemCb == 'function') {
-                itemCb.call(this, $this);
-            }*/
-
-            $activeItem = $this;
-
-            $this = null;
-
-        }).on('click', '#buy', function (e) {
-            if ($('.r-tab > ul > li').length <= 0) {
-                return false;
-            }
-
-            var telNum = $('input[name="telNum"]').val();
-
-            var result = module.exports.available('phone', telNum);
-            if (result.rule == false) {
-                module.exports.swal(result.msg, 'warning');
-                return false;
-            }
-
-            // console.log($activeItem);
-            if ($activeItem.length <= 0) {
-                module.exports.swal('请选择产品', 'warning');
-                return false;
-            }
-
-            /*if (!!buyCb && typeof buyCb == 'function') {
-                buyCb.call(this, $activeItem);
-            }*/
-
-            var id = $activeItem.data('id');
-            module.exports.pay(id, telNum);
-        });
-
-        // order.html
-        $(document).on('click', '.r-head__ul > li', function (e) {
-            var $this = $(e.target);
-
-            if ($this.is('a')) {
-                $this = $this.parent('li');
-            }
-
-            if ($this.hasClass('active')) {
-                return false;
-            }
-
-            $this.addClass('active').siblings().removeClass('active');
-
-            if (!!orderCb && typeof orderCb == 'function') {
-                orderCb.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
-                // callback.apply(this, [$this]);
-                // callback.call();
-                // orderCb($this);
-            }
-        });
-
-        // 手机号码缓存下拉
-        $(document).on('focus', '[name="telNum"]',  function (e) {
-            var $this = $(e.target);
-
-            var telList = new LocalData().get(storageKey);
-            if (telList) {
-                var $storageWrap = $('.storageWrap');
-
-                if ($storageWrap.length > 0) {
-                    $storageWrap.fadeIn();
-                } else {
-                    var $storage = $(renderStorageList(telList));
-                    var inputHeight = $this.outerHeight(true),
-                        inputWidth = $this.outerWidth(true),
-                        offsetTop = $this.offset().top;
-
-                    $storage.css({
-                        'top': inputHeight + offsetTop,
-                        'min-width': inputWidth * 0.6 + 'px'
-                    });
-
-                    $('body').append($storage);
-                    $storage.fadeIn();
-
-                    $storage = null; inputHeight = null; inputWidth = null; offsetTop = null;
-                }
-
-                $storageWrap = null;
-            }
-
-            $this = null; telList = null;
-        }).on('blur', '[name="telNum"]', function (e) {
-            var $storageWrap = $('.storageWrap');
-            if ($storageWrap.length > 0) {
-                $storageWrap.fadeOut();
-            }
-            $storageWrap = null;
-        });
-
-        $(document).on('click', '[data-name="telNum"]', function (e) {
-            var $this = $(e.target);
-            var $telNum = $('[name="telNum"]');
-
-            if ($telNum.length > 0) {
-                $telNum.val($this.data('value'));
-            }
-
-            $this = null; $telNum = null;
-        });
-    };
-
-    /**
      * 缓存电话号码
      * @param telNum 电话号码
      */
@@ -291,6 +143,8 @@ define(function (require, exports, module) {
     exports.pay = function (id, telNum) {
         var layerIndex = module.exports.layerLoad();
 
+        module.exports.setSingTelStorage(telNum);   // 缓存手机号码
+
         $.ajax({
             url: 'api/pay/create',
             contentType: 'application/x-www-form-urlencoded',
@@ -309,8 +163,6 @@ define(function (require, exports, module) {
                 }, function (res) {
                     WeixinJSBridge.log(res.err_msg);
                     if (res.err_msg == "get_brand_wcpay_request:ok") {
-                        module.exports.setSingTelStorage(telNum);   // 缓存手机号码
-
                         module.exports.swal("恭喜您，支付成功", 'success', function () {
                             location.href = "#/order/order";
                             location.reload();
@@ -608,6 +460,154 @@ define(function (require, exports, module) {
     };
 
     /**
+     * 初始化
+     * @param buyCb 套餐支付回调
+     * @param orderCb 订单列表回调
+     */
+    exports.jqInit = function (buyCb, orderCb) {
+        // recharge.html
+        var $activeItem = $('.r-item.active');
+        $(document).on('click', '.r-tab > ul > li', function (e) {
+            var $this = $(e.target);
+
+            if ($this.is('a')) {
+                $this = $this.parent('li');
+            }
+
+            if ($this.hasClass('active')) {
+                return;
+            }
+
+            var activeIndex = $('.r-tab > ul > li').index($this);
+            var $tabContent = $('.r-tabContent > ul > li');
+
+            $this.addClass('active').siblings().removeClass('active');
+            $tabContent.eq(activeIndex).show().siblings().hide();
+
+            $this = null; activeIndex = null; $tabContent = null;
+        }).on('click', '.r-item', function (e) {
+            var $this = $(e.target);
+
+            if ($this.hasClass('active')) {
+                return;
+            }
+
+            $this.addClass('active');
+            $activeItem.removeClass('active');
+
+            // 修改金额 & tips
+            $('#money').html($this.data('val'));
+            $('.r-tips').html($this.data('tips') || '');
+
+            /*if (!!itemCb && typeof itemCb == 'function') {
+                itemCb.call(this, $this);
+            }*/
+
+            $activeItem = $this;
+
+            $this = null;
+
+        }).on('click', '#buy', function (e) {
+            if ($('.r-tab > ul > li').length <= 0) {
+                return false;
+            }
+
+            var telNum = $('input[name="telNum"]').val();
+
+            var result = module.exports.available('phone', telNum);
+            if (result.rule == false) {
+                module.exports.swal(result.msg, 'warning');
+                return false;
+            }
+
+            // console.log($activeItem);
+            if ($activeItem.length <= 0) {
+                module.exports.swal('请选择产品', 'warning');
+                return false;
+            }
+
+            /*if (!!buyCb && typeof buyCb == 'function') {
+                buyCb.call(this, $activeItem);
+            }*/
+
+            var id = $activeItem.data('id');
+            module.exports.pay(id, telNum);
+        });
+
+        // order.html
+        $(document).on('click', '.r-head__ul > li', function (e) {
+            var $this = $(e.target);
+
+            if ($this.is('a')) {
+                $this = $this.parent('li');
+            }
+
+            if ($this.hasClass('active')) {
+                return false;
+            }
+
+            $this.addClass('active').siblings().removeClass('active');
+
+            if (!!orderCb && typeof orderCb == 'function') {
+                orderCb.call(this, $this);    // this => <li class="active"><a href="javascript:;">xxx</a></li>
+                // callback.apply(this, [$this]);
+                // callback.call();
+                // orderCb($this);
+            }
+        });
+
+        // 手机号码缓存下拉
+        $(document).on('focus', '[name="telNum"]',  function (e) {
+            var $this = $(e.target);
+
+            var telList = new LocalData().get(storageKey);
+            if (telList) {
+                var $storageWrap = $('.storageWrap');
+
+                if ($storageWrap.length > 0) {
+                    $storageWrap.fadeIn();
+                } else {
+                    var $storage = $(renderStorageList(telList));
+                    var inputHeight = $this.outerHeight(true),
+                        inputWidth = $this.outerWidth(true),
+                        offsetTop = $this.offset().top;
+
+                    $storage.css({
+                        'top': inputHeight + offsetTop,
+                        'min-width': inputWidth * 0.6 + 'px'
+                    });
+
+                    $('body').append($storage);
+                    $storage.fadeIn();
+
+                    $storage = null; inputHeight = null; inputWidth = null; offsetTop = null;
+                }
+
+                $storageWrap = null;
+            }
+
+            $this = null; telList = null;
+        }).on('blur', '[name="telNum"]', function (e) {
+            var $storageWrap = $('.storageWrap');
+            if ($storageWrap.length > 0) {
+                $storageWrap.fadeOut();
+            }
+            $storageWrap = null;
+        });
+
+        $(document).on('click', '[data-name="telNum"]', function (e) {
+            var $this = $(e.target);
+            var $telNum = $('[name="telNum"]');
+
+            if ($telNum.length > 0) {
+                $telNum.val($this.data('value'));
+            }
+
+            $this = null; $telNum = null;
+        });
+    };
+
+    /**
      * 设置缓存值
      * @param key 主键
      * @param value 值
@@ -707,9 +707,9 @@ define(function (require, exports, module) {
          * 存储
          * @param key 主键
          * @param value 值
-         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }, 默认为1
+         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }, 默认为2
          */
-        this.set = function (key, value, storageType = 1) {
+        this.set = function (key, value, storageType = 2) {
             if (this.isLocalStorage) {
                 setStorage(key, value, storageType);
             } else {
@@ -726,11 +726,11 @@ define(function (require, exports, module) {
         /**
          * 获取
          * @param key 主键
-         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }, 默认为1
+         * @param storageType 缓存类型，{1: sessionStorage , 2: localStorage }, 默认为2
          * @param isJSON 是否返回JSON，{true: 返回JSON , false: 返回String }, 默认为true
          * @returns {string | *}
          */
-        this.get = function (key, storageType = 1, isJSON = true) {
+        this.get = function (key, storageType = 2, isJSON = true) {
             if (this.isLocalStorage) {
                 return getStorage(key, storageType, isJSON);
             } else {

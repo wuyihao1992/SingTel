@@ -17,7 +17,7 @@
                 this.fetchData = function () {
                     _this.canLoadPage = false;
 
-                    api(_this.bizCont, {type: 'GET', url: 'api/bill'}).then(function (result) {
+                    api(_this.bizCont, {type: 'GET', url: 'api/user_credit_log'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             var data = result.data;
 
@@ -48,6 +48,8 @@
                         }
                     }, function () {
                         _this.canLoadPage = true;
+                        $load.show();
+                        $load.html('请求数据失败');
                     });
 
                     // TODO: test 应在ajax里面实现
@@ -114,15 +116,16 @@
                     for (var i in data) {
                         var item = data[i];
 
-                        var pointStr = '<div class="record__point r-colorBlue">-100</div>';
+                        var color = item.value.indexOf('-') > -1 ? 'r-colorBlue' : 'r-colorRed';
+                        var pointStr = '<div class="record__point '+ color +'">'+ item.value +'</div>';
 
                         str += '<li>' +
-                            '<p class="record__tit">'+ item.phone_number +'</p>' +
-                            '<p class="record__time">'+ item.created_at +'</p>' +
+                            '<p class="record__tit">'+ item.credit_type +'</p>' +
+                            '<p class="record__time">'+ item.time +'</p>' +
                             pointStr +
                             '</li>';
 
-                        item = null; pointStr = null;
+                        item = null; color = null; pointStr = null;
                     }
                     return str;
                 };
