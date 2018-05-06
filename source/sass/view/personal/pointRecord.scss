@@ -1,0 +1,40 @@
+@import "../../vars";
+
+.pointRecord{
+  background-color: #fff;
+
+  //$li-h: 50px;
+
+  > li{
+    display: block;
+    width: 100%;
+    //height: $li-h;
+    padding: 10px 15px;
+    position: relative;
+
+    &:not(:last-child){
+      border-bottom: 1px solid $color-border;
+    }
+  }
+
+  .record__tit, .record__time{
+    max-width: 80%;
+    max-height: 20px;
+    word-break: keep-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .record__time{
+    color: $color-gray;
+    font-size: 13px;
+  }
+
+  .record__point{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translate(0, -50%);
+
+  }
+}

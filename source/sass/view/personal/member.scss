@@ -1,0 +1,127 @@
+@import "../../vars";
+
+.member-headerWrap{
+  width: 100%;
+  height: 25vh;
+  padding-top: 3vh;
+  //background-color: $color-blue;
+  background: url("../../icons/member/banner.png") no-repeat center;
+  background-size: cover;
+
+  .headerWrap__head{
+    width: 20vw;
+    height: 20vw;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #fff url("../../icons/man.svg") no-repeat center;
+    background-size: contain;
+    //box-shadow: 0 0 4px 2px rgba(255,255,255,0.4);
+    box-shadow: 0 0 4px 2px rgba(0,0,0,0.2);
+  }
+
+  .headerWrap__tit{
+    color: #555;
+    font-size: 1.6rem;
+    margin-top: 15px;
+    text-align: center;
+
+    .headerWrapTit--name{
+      margin-right: 10px;
+    }
+
+    .headerWrapTit--point{
+      font-size: 2rem;
+      color: $color-sub;
+    }
+  }
+}
+
+$memberLi-height: 40px;
+.member-contentWrap{
+  width: 100%;
+  padding-left: 15px;
+  margin-top: 14px; // font-size
+  //height: 70vh;
+  //overflow-y: auto;
+
+  .memberContentWrap__ul {
+
+    .memberLi {
+      display: block;
+      line-height: $memberLi-height;
+      min-height: $memberLi-height;
+      cursor: pointer;
+    }
+    .line{
+      min-height: 1px;
+      font-size: 0;
+      line-height: 0;
+      border-top: 1px solid $color-border;
+      margin: 14px 0; // font-size
+    }
+
+    .memberLi-icon{
+      display: inline-block;
+      width: 16px;
+      height: $memberLi-height;
+      vertical-align: middle;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .memberLi-icon-tit{
+      margin-right: 10px;
+      background-image: url("../../icons/man.svg");
+
+      &.tit--search{background-image: url("../../icons/member/icon-search.svg");}
+      &.tit--log{background-image: url("../../icons/member/icon-log.svg");}
+      &.tit--count{background-image: url("../../icons/member/icon-count.svg");}
+    }
+    .memberLi-icon-slid{
+      float: right;
+      margin-right: 15px;
+      background: none;
+      text-align: center;
+
+      &:before{
+        display: inline;
+        color: $color-sub;
+      }
+
+      &.opened{
+        &:before{
+          content: '︿';
+        }
+      }
+      &.closed{
+        &:before{
+          content: '﹀';  // '﹀︿〉〈' ''〉〉︿〈﹀''
+        }
+      }
+      &.link{
+        display: none;
+
+        &:before{
+          content: '〉';
+        }
+      }
+    }
+
+    .memberLi-descWrap{
+      display: none;
+      line-height: 16px;
+      color: #696969;
+
+      word-wrap: break-word;
+      word-break: break-all;
+      background-color: #eee;
+      margin-right: 30px;
+      //margin-left: 15px;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+
+  }
+
+}

@@ -19,6 +19,7 @@
 .childFlex{flex: 1;}
 
 .r-colorRed{color: $color-deep-red;}
+.r-colorBlue{color: $color-blue;}
 .r-pad4VW{padding: 4vw;}
 .r-padLR4{padding: 0 4vw;}
 .r-borBot{border-bottom: 1px solid #dedddd;}
@@ -309,5 +310,62 @@ table{
     height: 30vh;
     background: url("./icons/updateing.png") no-repeat center;
     background-size: auto 60%;
+}
+
+// 充值-手机号码缓存效果
+.storageWrap{
+    $storageLi-h: 26px;
+
+    display: none;
+
+    z-index: 1024;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    min-width: 120px;
+
+    &:before{
+        width: 8px;
+        height: 8px;
+        display: block;
+        content: '';
+        border: 4px solid transparent;
+        //border-bottom-color: #fff;
+        border-bottom-color: #ebeef5;
+        margin: 0 auto;
+        z-index: 99999;
+    }
+
+    .storageUl{
+        width: 100%;
+        min-height: 48px;
+        max-height: 120px;
+        overflow: auto;
+        padding: 4px 0;
+        border-radius: 4px;
+        border: 1px solid #e4e7ed;
+        //box-shadow: 0 3px 3px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 4px 12px 0 rgba(0,0,0,.1);
+        z-index: 1000;
+        background-color: #fff;
+
+        li {
+            width: 100%;
+            height: $storageLi-h;
+            line-height: $storageLi-h;
+            text-align: center;
+            cursor: pointer;
+            padding: 0 4px;
+            color: #606266;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            &:nth-child(2n){
+                background-color: #f5f7fa;
+            }
+        }
+    }
 }
 

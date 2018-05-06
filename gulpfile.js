@@ -128,7 +128,7 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('./build/css'));
 });
 
-var jsList = ['./build/js/', './build/js/lib/', './build/js/view/common/', './build/js/view/order/', './build/js/view/recharge/'];
+var jsList = ['./build/js/', './build/js/lib/', './build/js/view/common/', './build/js/view/order/', './build/js/view/recharge/', './build/js/view/personal/'];
 gulp.task('copyJS', function () {
     gulp.src(['./source/js/**/*']).pipe(gulp.dest('./build/js/'));  // 先复制
 })
@@ -144,6 +144,7 @@ gulp.task('JS', ['copyJS'], function () {
     gulp.src(jsList[2] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[2]));
     gulp.src(jsList[3] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[3]));
     gulp.src(jsList[4] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[4]));
+    gulp.src(jsList[5] + '*.js').pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(jsList[5]));
 
 });
 
