@@ -118,7 +118,16 @@
 
                         var color = '';
                         if (item.value !== '') {
-                            color = (item.value).toString().indexOf('-') > -1 ? 'r-colorBlue' : 'r-colorRed';
+                            item.value = (item.value).toString();
+                            if (item.value.indexOf('-') > -1) {
+                                color = 'r-colorBlue';
+                            } else {
+                                color = 'r-colorRed';
+
+                                if (item.value.indexOf('+') < 0) {
+                                    item.value = '+' + item.value;
+                                }
+                            }
                         }
 
                         var pointStr = '<div class="record__point '+ color +'">'+ item.value +'</div>';
