@@ -1,45 +1,49 @@
 <div id="app" style="text-align: center;">
-    <img src="../../build/img/favicon.ico" style="display: block;margin: 0 auto;">
+    <img src="../../build/img/card.jpg" style="display: block;margin: 0 auto;">
     <p>Start Success! Welcome To hi.html!</p>
 
     <br/>
     <h5>Test</h5>
-    <p>Test & Index: <a data-type="url" data-key="test">Index.html</a></p>
+    <p>Test & Index: <a data-type="url" data-link="/common/hi">Index.html</a></p>
 
     <br/>
     <h5>充值-url不带参，分三个页面</h5>
-    <p>SingTel: <a data-type="url" data-key="SingTel">SingTel</a></p>
-    <p>StarHub: <a data-type="url" data-key="StarHub">StarHub</a></p>
-    <p>M1: <a data-type="url" data-key="M1">M1</a></p>
+    <p>SingTel: <a data-type="url" data-link="/recharge/SingTel">SingTel</a></p>
+    <p>StarHub: <a data-type="url" data-link="/recharge/StarHub">StarHub</a></p>
+    <p>M1: <a data-type="url" data-link="/recharge/M1">M1</a></p>
 
-    <div style="display: none;">
+    <div class="r-hide">
         <br/>
         <h5>充值-url带参，单页面</h5>
-        <p>SingTel(index.html#/recharge/recharge?type=SingTel): <a data-type="url" data-key="recharge" data-url="SingTel">SingTel</a></p>
-        <p>Starhub(index.html#/recharge/recharge?type=StarHub): <a data-type="url" data-key="recharge" data-url="StarHub">Starhub</a></p>
-        <p>M1(index.html#/recharge/recharge?type=M1): <a data-type="url" data-key="recharge" data-url="M1">M1</a></p>
+        <p>SingTel(index.html#/recharge/recharge?type=SingTel): <a data-type="url" data-link="/recharge/recharge" data-param="SingTel">SingTel</a></p>
+        <p>Starhub(index.html#/recharge/recharge?type=StarHub): <a data-type="url" data-link="/recharge/recharge" data-param="StarHub">Starhub</a></p>
+        <p>M1(index.html#/recharge/recharge?type=M1): <a data-type="url" data-link="/recharge/recharge" data-param="M1">M1</a></p>
     </div>
 
     <br/>
     <h5>订单</h5>
-    <p>order(我的订单): <a data-type="url" data-key="order">我的订单</a></p>
-    <p>orderBack(申请退款): <a data-type="url" data-key="orderBack">申请退款</a></p>
+    <p>order(我的订单): <a data-type="url" data-link="/order/order">我的订单</a></p>
+    <p>orderBack(申请退款): <a data-type="url" data-link="/order/orderBack">申请退款</a></p>
 
     <br/>
     <h5>退款政策</h5>
-    <p>退款政策: <a data-type="url" data-key="policy">退款政策</a></p>
+    <p>退款政策: <a data-type="url" data-link="/common/policy">退款政策</a></p>
 
     <br/>
     <h5>升级维护中</h5>
-    <p>升级维护中: <a data-type="url" data-key="update">升级维护中</a></p>
+    <p>升级维护中: <a data-type="url" data-link="/common/update">升级维护中</a></p>
 
     <br/>
     <h5>我的会员</h5>
-    <p>我的会员: <a data-type="url" data-key="member">我的会员</a></p>
+    <p>我的会员: <a data-type="url" data-link="/personal/member">我的会员</a></p>
 
     <br/>
     <h5>积分记录</h5>
-    <p>积分记录: <a data-type="url" data-key="pointRecord">积分记录</a></p>
+    <p>积分记录: <a data-type="url" data-link="/personal/pointRecord">积分记录</a></p>
+
+    <br/>
+    <h5>分享页面</h5>
+    <p>分享页面: <a data-type="url" data-link="/common/share">分享页面</a></p>
 
     <br/>
     <p><a href="javascript:;" id="payTest">测试支付</a></p>

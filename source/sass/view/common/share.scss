@@ -1,0 +1,31 @@
+@import "../../vars";
+
+.share-title{
+  height: 10vh;
+  background: url("../../../img/share.jpg") no-repeat center;
+  background-size: auto 100%;
+}
+
+.share-qrCode{
+  height: 30vh;
+  background: url("../../../img/QRCode.jpg") no-repeat center;
+  background-size: auto 100%;
+  margin-bottom: 10px;
+}
+
+.share-content{
+  text-align: center;
+  line-height: 24px;
+}
+
+.share-btnWrap{
+  margin-top: 30px;
+  text-align: center;
+
+  .btnWrap--btn{
+    padding: 8px;
+    background-color: $color-blue;
+    color: #fff;
+    border-radius: 4px;
+  }
+}

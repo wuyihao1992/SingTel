@@ -4,32 +4,20 @@
 
     return function ($html) {
         var origin = location.origin;
-        var urlObj = {
-            test: '',
-            SingTel: '/recharge/SingTel',
-            StarHub: '/recharge/StarHub',
-            M1: '/recharge/M1',
-            recharge: '/recharge/recharge',
-            order: '/order/order',
-            orderBack: '/order/orderBack',
-            policy: '/common/policy',
-            update: '/common/update',
-            member: '/personal/member',
-            pointRecord: '/personal/pointRecord'
-        };
 
         $('[data-type="url"]', $html).each(function () {
             var $this = $(this);
-            var data = $this.data(), url;
+            var data = $this.data();
+            var url;
 
-            url = origin + location.pathname + '#' + urlObj[data.key];
+            url = origin + location.pathname + '#' + data.link;
             // url = '../../../../index.html#' + urlObj[data.key];
-            if (data.key == 'recharge') {
-                url += '?type=' + data.url;
+            if (data.param) {
+                url += '?type=' + data.param;
             }
 
-            $this.attr('href', url);
-            // $this.attr('target', '_self');
+            $this.prop('href', url);
+            // $this.prop('target', '_self');
         });
 
         // 获取微信签名
