@@ -99,7 +99,6 @@
                                 wx.hideMenuItems({
                                     menuList: ['menuItem:openWithQQBrowser', 'menuItem:openWithSafari', 'menuItem:copyUrl']
                                 });
-
                             });
                         }
                     });
