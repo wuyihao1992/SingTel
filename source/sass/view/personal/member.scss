@@ -22,7 +22,7 @@
   .headerWrap__tit{
     color: #555;
     font-size: 1.6rem;
-    margin-top: 15px;
+    margin-top: 10px;
     text-align: center;
 
     .headerWrapTit--name{
@@ -32,6 +32,21 @@
     .headerWrapTit--point{
       font-size: 2rem;
       color: $color-sub;
+    }
+  }
+
+  .headerWrap__signIn{
+    margin-top: 5px;
+
+    .headerWrap__Icon:before{
+      width: 13px;
+      height: 13px;
+      display: inline-block;
+      margin-right: 4px;
+      content: '';
+      vertical-align: middle;
+      background: url("../../icons/member/icon-edit.svg") no-repeat center;
+      background-size: contain;
     }
   }
 }
