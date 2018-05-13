@@ -115,9 +115,10 @@ define(function (require, exports, module) {
     /**
      * 渲染缓存电话号码下拉列表
      * @param telList 电话号码列表
+     * @param type {1: 返回下拉列表即其container，2：只返回下拉列表}
      * @returns {string|*}
      */
-    function renderStorageList(telList) {
+    function renderStorageList(telList, type = 1) {
         var storageWrap,
             liStr = '';
 
@@ -130,9 +131,11 @@ define(function (require, exports, module) {
             '<ul class="storageUl">' + liStr + '</ul>' +
             '</div>';
 
-        liStr = null;
-
-        return storageWrap;
+        if (type === 1) {
+            return storageWrap;
+        } else {
+            return '<ul class="storageUl">' + liStr + '</ul>';
+        }
     }
 
     /**
@@ -565,7 +568,12 @@ define(function (require, exports, module) {
                 var $storageWrap = $('.storageWrap');
 
                 if ($storageWrap.length > 0) {
+                    var $li = $('li', $storageWrap);
+                    if ($li.length !== telList.length) {
+                        $storageWrap.html(renderStorageList(telList, 2));
+                    }
                     $storageWrap.fadeIn();
+                    $li = null;
                 } else {
                     var $storage = $(renderStorageList(telList));
                     var inputHeight = $this.outerHeight(true),
