@@ -76,7 +76,7 @@
                             // 微信配置
                             wx.config({
                                 debug: false,
-                                appId: data.appId || '',
+                                appId: data.app_id || '',
                                 timestamp: data.timestamp,
                                 nonceStr: data.nonceStr,
                                 signature: data.sign,
