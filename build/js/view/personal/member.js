@@ -76,10 +76,10 @@
                             // 微信配置
                             wx.config({
                                 debug: false,
-                                appId: data.appId,
+                                appId: data.appId || '',
                                 timestamp: data.timestamp,
                                 nonceStr: data.nonceStr,
-                                signature: data.signature,
+                                signature: data.sign,
                                 jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems']
                             });
                             wx.ready(function () {
