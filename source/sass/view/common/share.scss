@@ -10,7 +10,17 @@
   height: 30vh;
   background: url("../../../img/QRCode.jpg") no-repeat center;
   background-size: auto 100%;
-  margin-bottom: 10px;
+
+  .qrCodeImg{
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+  }
+}
+
+.share-tips{
+  font-size: 2rem;
 }
 
 .share-content{

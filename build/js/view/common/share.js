@@ -1,31 +1,30 @@
-!define(['api', 'fun'], function (api, fun) {
+!define(['api', 'fun', 'conf'], function (api, fun, $conf) {
     document.title = 'SG易乐充';
 
     return function ($html) {
         "use strict";
         
         $(function () {
-            /*api({text_name: 'refund_policy'}, {url: 'api/text', type: 'GET'}).then(function (result) {
-                if (result.status == 0) {
-                    var data = fun.formTips(result.data);
-                    $('#policy', $html).html(data);
-                }
-            }, function (err) {
+            if ($conf.dev) {
+                $('#QRCode', $html).prop('src', '/test/build/img/QRCode.jpg');
+            } else {
+                $('#QRCode', $html).prop('src', '/build/img/QRCode.jpg');
+            }
 
-            });*/
-
-            var tips = '';
+            var tips = '', swalTips = '正在获取积分规则，请稍后！';
 
             // 获取积分的方式
             api({}, {type: 'GET', url: '/api/text?text_name=credit_rule'}).then(function (result) {
                 if (!!result && result.status == 0) {
                     tips= fun.formTips(result.data);
+                } else {
+                    swalTips = '暂无积分规则';
                 }
             });
 
             $('#showDetail', $html).on('click', function (e) {
                 if (!tips) {
-                    fun.swal('正在获取积分规则，请稍后！', 'info');
+                    fun.swal(swalTips, 'info');
                     return false;
                 }
 
