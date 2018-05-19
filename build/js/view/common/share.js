@@ -9,7 +9,7 @@
 
             // 获取qrcode
             var $shareQRCodes = $('#shareQRCodes', $html);
-            api({}, {type: 'GET', url: '/api/qrcode'}).then(function (result) {
+            api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
                 if (!!result && result.status == 0) {
                     $shareQRCodes.qrcode({
                         render: 'canvas',
@@ -26,7 +26,7 @@
             var tips = '', swalTips = '正在获取积分规则，请稍后！';
 
             // 获取积分的方式
-            api({}, {type: 'GET', url: '/api/text?text_name=credit_rule'}).then(function (result) {
+            api({}, {type: 'GET', url: 'api/text?text_name=credit_rule'}).then(function (result) {
                 if (!!result && result.status == 0) {
                     tips= fun.formTips(result.data);
                 } else {

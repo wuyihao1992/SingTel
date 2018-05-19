@@ -6,7 +6,6 @@
 
         $(function () {
             var type = fun.getReportQueryString('type') || '';
-            console.log(type);
             require(['css!' + location.origin + '/build/css/view/recharge/' + type + '.css?1.0']);
 
             var Charge = function () {
