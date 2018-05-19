@@ -3,7 +3,7 @@
 
     return function ($html) {
         "use strict";
-        
+
         $(function () {
             var conPath = $conf.dev ? '/test' : '';
             var tips = '', swalTips = '正在获取积分规则，请稍后！';
@@ -46,6 +46,22 @@
                             var mycanvas1 = document.getElementsByTagName('canvas')[0];
                             var img = convertCanvasToImage(mycanvas1);          // 将转换后的img标签插入到html中
                             $('#qrcodeImg', $shareQRCodes).append(img);         // imagQrDiv表示你要插入的容器id
+                        } else {
+                            $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
+                        }
+                    });
+                };
+
+                /**
+                 * 直接获取图片
+                 */
+                this.getQRCodeImg = function () {
+                    var $shareQRCodes = $('#shareQRCodes', $html);
+
+                    api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
+                        if (!!result && result.status == 0) {
+                            var src = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ result.data.ticket;
+                            $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ src +'" />');
                         } else {
                             $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
                         }
@@ -101,8 +117,9 @@
                 };
 
                 this.init = function () {
-                    this.getQRCode();
+                    // this.getQRCode();
                     // this.testQRCode();
+                    this.getQRCodeImg();
                     this.getCredit();
                     this.weChatShare();
                 };
