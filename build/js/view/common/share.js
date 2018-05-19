@@ -61,7 +61,7 @@
                     api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             var src = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ result.data.ticket;
-                            $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ src +'" />');
+                            $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+src+'" />');
                         } else {
                             $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
                         }
