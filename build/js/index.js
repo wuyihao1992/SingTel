@@ -18,7 +18,8 @@
             // "layer": "../assets/layer/layer",
 
             "api": "lib/API.min",
-            "fun": "lib/fun"                // FIXME
+            "fun": "lib/fun",
+            "qrcode": "lib/jquery.qrcode.min"
         },
         shim: {}
     });
