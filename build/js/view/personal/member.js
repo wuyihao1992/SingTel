@@ -106,7 +106,7 @@
 
                 this.getCreditRule = function () {
                     // 获取积分的方式
-                    api({}, {type: 'GET', url: '/api/text?text_name=credit_rule'}).then(function (result) {
+                    api({}, {type: 'GET', url: 'api/text?text_name=credit_rule'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             var data = fun.formTips(result.data);
                             $('[data-name="creditRule"]', $html).html(data);
@@ -114,7 +114,7 @@
                     });
 
                     // 积分抵扣规则
-                    api({}, {type: 'GET', url: '/api/text?text_name=comsume_credit_rule'}).then(function (result) {
+                    api({}, {type: 'GET', url: 'api/text?text_name=comsume_credit_rule'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             var data = fun.formTips(result.data);
                             $('[data-name="comsumeCreditRule"]', $html).html(data);
