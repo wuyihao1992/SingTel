@@ -1,4 +1,4 @@
-!define(['api', 'fun', 'conf'], function (api, fun, $conf) {
+!define(['api', 'fun', 'conf', 'qrcode'], function (api, fun, $conf, qrcode) {
     document.title = 'SG易乐充';
 
     return function ($html) {
@@ -7,7 +7,21 @@
         $(function () {
             var conPath = $conf.dev ? '/test' : '';
 
-            $('#QRCode', $html).prop('src', conPath + '/build/img/QRCode.jpg');
+            // 获取qrcode
+            var $shareQRCodes = $('#shareQRCodes', $html);
+            api({}, {type: 'GET', url: '/api/qrcode'}).then(function (result) {
+                if (!!result && result.status == 0) {
+                    $shareQRCodes.qrcode({
+                        render: 'canvas',
+                        width: $shareQRCodes.height(),
+                        height: $shareQRCodes.height(),
+                        text: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ result.data.ticket
+                    });
+                } else {
+                    $shareQRCodes.append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
+                    $('#QRCode', $html).prop('src', conPath + '/build/img/QRCode.jpg');
+                }
+            });
 
             var tips = '', swalTips = '正在获取积分规则，请稍后！';
 
