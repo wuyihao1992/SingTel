@@ -5,6 +5,8 @@
         "use strict";
 
         $(function () {
+            $('.r-mainContainer').css('padding-bottom', '14%');
+
             $html.on('click', '.memberLi' , function (e) {
                 var $this = $(e.target);
 
