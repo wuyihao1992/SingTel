@@ -82,7 +82,7 @@
                 };
 
                 this.weChatShare = function () {
-                    api({}, {type: 'GET', url: 'api/user_info'}).then(function (result) {
+                    api({url: location.href}, {type: 'GET', url: 'api/user_info'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             var data = result.data;
                             // 微信配置
@@ -94,7 +94,6 @@
                                 signature: data.sign,
                                 jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems'],
                                 success: function (res) {
-                                    alert(res);
                                     api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
                                         if (!!response && response.status == 0) {
                                             fun.swal('分享成功', 'success');
