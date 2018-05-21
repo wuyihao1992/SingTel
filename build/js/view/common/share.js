@@ -87,7 +87,7 @@
                             var data = result.data;
                             // 微信配置
                             wx.config({
-                                debug: true,
+                                debug: false,
                                 appId: data.app_id,
                                 timestamp: data.timestamp,
                                 nonceStr: data.noncestr,
@@ -111,7 +111,7 @@
                                     title: 'SG易乐充',
                                     desc: 'SG易乐充,您的充值管家!',
                                     link: location.origin + location.pathname + '#/common/share',
-                                    imgUrl: conPath + '/build/img/card.jpg',
+                                    imgUrl: location.origin + conPath + '/build/img/card.jpg',
                                     type: 'link'
                                 };
 
