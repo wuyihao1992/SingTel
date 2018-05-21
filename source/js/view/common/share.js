@@ -90,7 +90,7 @@
                                 debug: true,
                                 appId: data.app_id || '',
                                 timestamp: data.timestamp,
-                                nonceStr: data.nonceStr,
+                                nonceStr: data.noncestr,
                                 signature: data.sign,
                                 jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems'],
                                 success: function (res) {
