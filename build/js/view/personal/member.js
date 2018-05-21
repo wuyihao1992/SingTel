@@ -72,34 +72,6 @@
                                 $signIn.html('已签到');
                                 $signIn.data('signIn', true);
                             }
-
-                            // 微信配置
-                            wx.config({
-                                debug: false,
-                                appId: data.app_id || '',
-                                timestamp: data.timestamp,
-                                nonceStr: data.nonceStr,
-                                signature: data.sign,
-                                jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems']
-                            });
-                            wx.ready(function () {
-                                var option = {
-                                    title: 'SG易乐充',
-                                    desc: 'SG易乐充,您的充值管家!',
-                                    // link: 'mainManage.do',
-                                    imgUrl: '/build/img/card.jpg',
-                                    type: 'link'
-                                };
-
-                                wx.onMenuShareAppMessage(option);
-                                wx.onMenuShareTimeline(option);
-                                wx.onMenuShareQQ(option);
-                                wx.onMenuShareWeibo(option);
-                                wx.onMenuShareQZone(option);
-                                wx.hideMenuItems({
-                                    menuList: ['menuItem:openWithQQBrowser', 'menuItem:openWithSafari', 'menuItem:copyUrl']
-                                });
-                            });
                         }
                     });
                 };

@@ -87,18 +87,31 @@
                             var data = result.data;
                             // 微信配置
                             wx.config({
-                                debug: false,
+                                debug: true,
                                 appId: data.app_id || '',
                                 timestamp: data.timestamp,
                                 nonceStr: data.nonceStr,
                                 signature: data.sign,
-                                jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems']
+                                jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems'],
+                                success: function (res) {
+                                    alert(res);
+                                    api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
+                                        if (!!response && response.status == 0) {
+                                            fun.swal('分享成功', 'success');
+                                        }
+                                    });
+                                }
                             });
+
+                            wx.error(function(res){
+                                fun.swal('微信签名失败', 'error');
+                            });
+
                             wx.ready(function () {
                                 var option = {
                                     title: 'SG易乐充',
                                     desc: 'SG易乐充,您的充值管家!',
-                                    // link: 'mainManage.do',
+                                    link: location.origin + location.pathname + '#/common/share',
                                     imgUrl: conPath + '/build/img/card.jpg',
                                     type: 'link'
                                 };
