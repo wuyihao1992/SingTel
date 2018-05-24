@@ -108,7 +108,8 @@
                     location.reload();
                 };
 
-                $('#mainContainer').html($html);    // $html 即为 $('#app')
+                $('#mainContainer').html($html);            // $html 即为 $('#app')
+                $('.r-backMoney', $html).html(copyright);   // 初始化版权信息
 
                 require([jsUrl], function(func){
                     func && func.call(this, $html);

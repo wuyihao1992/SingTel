@@ -4,7 +4,7 @@
 body{background-color: $color-bg; cursor: pointer;}
 
 .r-article{
-    height: calc(100% - 24px);
+    height: calc(100% - #{$backMoney-height});
     top: 0;
     bottom: 24px;
     padding-top: 0;
