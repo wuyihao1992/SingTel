@@ -40,7 +40,7 @@
 
         if (!!url.length){
             if (url[0] == '') {
-                url[0] = '/common/hi';
+                url[0] = '/common/home';
             }
 
             if (url.length > 1){
