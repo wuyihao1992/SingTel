@@ -1,0 +1,198 @@
+@charset "utf-8";
+
+@import "../../vars";
+
+$header-h: 80px;
+//$hom-color-bg: #00b1a5;
+//$home-color-main: #f47920;
+$hom-color-bg: #00b1a5;
+$home-color-main: #f47920;
+
+#app{
+  padding-top: $header-h;
+}
+
+.homeHeader{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $header-h;
+  line-height: $header-h;
+  color: #fff;
+  padding-left: 115px;
+  z-index: 999999;
+
+  background: $color-blue url("../../../img/card.jpg") center no-repeat;
+  background-size: auto 52%;
+  background-position: 30px center;
+
+  .homeHeader__tit{
+    float: left;
+    height: $header-h;
+    line-height: $header-h;
+    font-size: 17px;
+  }
+
+  a{
+    color: #fff;
+  }
+
+  .homeHeader__ul{
+    float: right;
+    height: 100%;
+    line-height: $header-h;
+
+    > li {
+      display: block;
+      float: left;
+      height: 100%;
+      line-height: $header-h;
+      min-width: 80px;
+      text-align: center;
+
+      &:not(:last-child):after{
+        height: $header-h;
+        line-height: $header-h;
+        display: block;
+        float: right;
+        content: '|';
+      }
+    }
+  }
+
+  &:after{
+    @include _clear();
+  }
+}
+
+.homeBanner{
+  width: 100%;
+  height: 300px;
+
+  .homeBanner__imgWrap{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+    .imgWrap__img{
+      width: 100%;
+      height: 100%;
+
+      img{
+        width: 100%;
+      }
+
+      li{
+        width: 100%;
+        height: 100%;
+        display: block;
+
+        background: url("../../icons/member/banner.png") no-repeat center;
+        background-size: cover;
+      }
+    }
+
+    .imgWrap__index{
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translate(-50%, 0);
+
+      a{
+        display:block;
+        float:left;
+        width:21px;
+        height:21px;
+        background:url('../../icons/common/home/btn_main_img.png') 0 0 no-repeat;
+        text-indent:-1000px;
+
+        &.active{
+          background-position:0 -21px;
+        }
+      }
+    }
+
+    .img--changeBtn{
+      z-index: 11111;
+      position: absolute;
+      display: block;
+      width: 73px;
+      height: 74px;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+    #btn_prev{background:url(../../icons/common/home/hover_left.png) no-repeat center; left:100px;}
+    #btn_next{background:url(../../icons/common/home/hover_right.png) no-repeat center; right:100px;}
+
+  }
+}
+
+.bannerContent{
+  height: 380px;
+  background-color: $color-bg;
+
+  .aboutUS{
+    margin-bottom: 60px;
+  }
+
+  .bannerContent--tit{
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  p{
+    line-height: 24px;
+  }
+}
+
+.homeFooter{
+  background-color: #000;
+  min-height: 200px;
+  color: $color-gray;
+  padding: 30px 40px;
+
+  a{
+    color: #fff;
+  }
+
+  .homeFooter__left{width: 70%;}
+  .homeFooter__right{width: 30%; min-height: 200px;}
+
+  .homeFooter__server{
+    height: 160px;
+
+    .homeFooter__ulWrap{
+      &:not(:last-child){
+        margin-right: 30px;
+      }
+    }
+
+    .homeFooter__ul{
+      li {
+        line-height: 24px;
+      }
+
+      .ul--title{
+        color: $color-main;
+        font-size: 18px;
+        line-height: 28px;
+      }
+    }
+  }
+
+  .homeFooter__copyright{height: 40px;}
+
+  .homeFooter__codeWrap{
+    width: 60%;
+    height: 200px;
+    margin: 0 auto;
+    background: url("../../../img/QRCode.jpg") no-repeat center;
+    background-size: 100% auto;
+  }
+
+  &:after{
+    @include _clear();
+  }
+}
