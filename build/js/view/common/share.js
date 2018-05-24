@@ -1,5 +1,5 @@
 !define(['api', 'fun', 'conf', 'qrcode'], function (api, fun, $conf, qrcode) {
-    document.title = 'SG易乐充';
+    document.title = $conf.title;
 
     return function ($html) {
         "use strict";
@@ -108,7 +108,7 @@
 
                             wx.ready(function () {
                                 var option = {
-                                    title: 'SG易乐充',
+                                    title: $conf.title,
                                     desc: 'SG易乐充,您的充值管家!',
                                     link: location.origin + location.pathname + '#/common/share',
                                     imgUrl: location.origin + conPath + '/build/img/card.jpg',

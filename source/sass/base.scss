@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 @import "reset";
+@import "vars";
 
 // 块状元素水平居中
 .auto{margin-left:auto; margin-right:auto;}
@@ -38,7 +39,7 @@
 #app{width: 100%; height: 100%; overflow-x: hidden; font-size: 1.4rem;}
 
 // ### recharge.html ###
-.r-header{position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - 8.84% - 24px); padding-top: 5.2vw; overflow-y: auto; }
+.r-header{position: absolute; left: 0; top: 0; width: 100%; height: calc(100% - 8.84% - #{$backMoney-height}); padding-top: 5.2vw; overflow-y: auto; }
 
 .r-footer{
     position: absolute;
@@ -138,7 +139,7 @@ $default-page-color: #00b1a5;
 
     > li{list-style: disc;}
 }
-.r-backMoney{position: absolute; left: 0; bottom: 8.84%; text-align: center; width: 100%; height: 24px; line-height: 24px;}
+.r-backMoney{position: absolute; left: 0; bottom: 8.84%; text-align: center; width: 100%; height: $backMoney-height; line-height: 24px;}
 
 // ### order.html ###
 // 头部
