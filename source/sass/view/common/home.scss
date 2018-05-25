@@ -20,12 +20,16 @@ $home-color-main: #f47920;
   height: $header-h;
   line-height: $header-h;
   color: #fff;
-  padding-left: 115px;
   z-index: 999999;
 
-  background: $color-blue url("../../../img/card.jpg") center no-repeat;
-  background-size: auto 52%;
-  background-position: 30px center;
+  //background: $color-blue url("../../../img/card.jpg") center no-repeat;
+  //background-size: auto 52%;
+  //background-position: 30px center;
+  //padding-left: 115px;
+
+  padding-left: 20px;
+  background-color: #000;
+  border-bottom: 2px solid $home-color-main;
 
   .homeHeader__tit{
     float: left;
