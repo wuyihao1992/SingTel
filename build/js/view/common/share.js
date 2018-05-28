@@ -87,19 +87,12 @@
                             var data = result.data;
                             // 微信配置
                             wx.config({
-                                debug: false,
+                                debug: true,
                                 appId: data.app_id,
                                 timestamp: data.timestamp,
                                 nonceStr: data.noncestr,
                                 signature: data.sign,
-                                jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems'],
-                                success: function (res) {
-                                    api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
-                                        if (!!response && response.status == 0) {
-                                            fun.swal('分享成功', 'success');
-                                        }
-                                    });
-                                }
+                                jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'hideMenuItems']
                             });
 
                             wx.error(function(res){
@@ -112,7 +105,14 @@
                                     desc: 'SG易乐充,您的充值管家!',
                                     link: location.origin + location.pathname + '#/common/share',
                                     imgUrl: location.origin + conPath + '/build/img/card.jpg',
-                                    type: 'link'
+                                    type: 'link',
+                                    success: function (res) {
+                                        api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
+                                            if (!!response && response.status == 0) {
+                                                fun.swal('分享成功', 'success');
+                                            }
+                                        });
+                                    }
                                 };
 
                                 wx.onMenuShareAppMessage(option);
