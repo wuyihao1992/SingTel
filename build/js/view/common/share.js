@@ -87,7 +87,7 @@
                             var data = result.data;
                             // 微信配置
                             wx.config({
-                                debug: true,
+                                debug: false,
                                 appId: data.app_id,
                                 timestamp: data.timestamp,
                                 nonceStr: data.noncestr,
@@ -100,26 +100,32 @@
                             });
 
                             wx.ready(function () {
-                                var option = {
-                                    title: $conf.title,
-                                    desc: 'SG易乐充,您的充值管家!',
-                                    link: location.origin + location.pathname + '#/common/share',
-                                    imgUrl: location.origin + conPath + '/build/img/card.jpg',
-                                    type: 'link',
-                                    success: function (res) {
-                                        api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
-                                            if (!!response && response.status == 0) {
-                                                fun.swal('分享成功', 'success');
+                                var getOption = function (type) {
+                                    var option = {
+                                        title: $conf.title,
+                                        desc: 'SG易乐充,您的充值管家!',
+                                        link: location.origin + location.pathname + '#/common/share',
+                                        imgUrl: location.origin + conPath + '/build/img/card.jpg',
+                                        type: 'link',
+                                        success: function (res) {
+                                            if (!!type) {
+                                                api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
+                                                    if (!!response && response.status == 0) {
+                                                        fun.swal('分享成功', 'success');
+                                                    }
+                                                });
                                             }
-                                        });
-                                    }
+                                        }
+                                    };
+
+                                    return option;
                                 };
 
-                                wx.onMenuShareAppMessage(option);
-                                wx.onMenuShareTimeline(option);
-                                wx.onMenuShareQQ(option);
-                                wx.onMenuShareWeibo(option);
-                                wx.onMenuShareQZone(option);
+                                wx.onMenuShareAppMessage(getOption());
+                                wx.onMenuShareTimeline(getOption(true));
+                                wx.onMenuShareQQ(getOption());
+                                wx.onMenuShareWeibo(getOption());
+                                wx.onMenuShareQZone(getOption());
                                 wx.hideMenuItems({
                                     menuList: ['menuItem:openWithQQBrowser', 'menuItem:openWithSafari', 'menuItem:copyUrl']
                                 });
