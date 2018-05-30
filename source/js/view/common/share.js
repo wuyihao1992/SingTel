@@ -9,6 +9,12 @@
             var tips = '', swalTips = '正在获取积分规则，请稍后！';
 
             var Share = function () {
+                var _this = this;
+
+                this.userTicket = '';                                       // 当前用户的ticket
+                this.sharedTicket = fun.getReportQueryString('ticket');     // 上一个分享用户的ticket
+
+                // 无用
                 this.testQRCode = function (type) {
                     var $shareQRCodes = $('#shareQRCodes', $html);
 
@@ -28,19 +34,20 @@
                     }
                 };
 
-                /**
-                 * 获取qrcode
-                 */
+                // 获取qrcode（无用）
                 this.getQRCode = function () {
                     var $shareQRCodes = $('#shareQRCodes', $html);
 
                     api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
                         if (!!result && result.status == 0) {
+                            _this.userTicket = result.data.ticket;
+
+                            // 如果是被分享的连接，则使用分享人的二维码
                             $('#qrDiv', $shareQRCodes).qrcode({
                                 render: 'canvas',
                                 width: $shareQRCodes.height(),
                                 height: $shareQRCodes.height(),
-                                text: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ result.data.ticket
+                                text: 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ (!!_this.sharedTicket ? _this.sharedTicket : _this.userTicket)
                             });
 
                             var mycanvas1 = document.getElementsByTagName('canvas')[0];
@@ -60,7 +67,9 @@
 
                     api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
                         if (!!result && result.status == 0) {
-                            var src = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ result.data.ticket;
+                            _this.userTicket = result.data.ticket;
+                            // 如果是被分享的连接，则使用分享人的二维码
+                            var src = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ (!!_this.sharedTicket ? _this.sharedTicket : _this.userTicket);
                             $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+src+'" />');
                         } else {
                             $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
@@ -104,7 +113,7 @@
                                     var option = {
                                         title: $conf.title,
                                         desc: 'SG易乐充,您的充值管家!',
-                                        link: location.origin + location.pathname + '#/common/share',
+                                        link: location.origin + location.pathname + '#/common/share' + '?ticket=' + _this.userTicket,   // 分享时带上当前用户的ticket
                                         imgUrl: location.origin + conPath + '/build/img/card.jpg',
                                         type: 'link',
                                         success: function (res) {
