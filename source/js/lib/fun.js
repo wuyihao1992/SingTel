@@ -351,7 +351,7 @@ define(function (require, exports, module) {
         var arr = url.split('?');
         var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
 
-        if (!reg) {
+        if (!arr[1]) {
             return null;
         }
 
