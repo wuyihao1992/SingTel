@@ -113,7 +113,7 @@
                                     var option = {
                                         title: $conf.title,
                                         desc: 'SG易乐充,您的充值管家!',
-                                        link: location.origin + location.pathname + conPath + '/share#/common/share' + '?ticket=' + _this.userTicket,   // 分享时带上当前用户的ticket
+                                        link: location.origin + location.pathname + '/share#/common/share' + '?ticket=' + _this.userTicket,   // 分享时带上当前用户的ticket
                                         imgUrl: location.origin + conPath + '/build/img/card.jpg',
                                         type: 'link',
                                         success: function (res) {
