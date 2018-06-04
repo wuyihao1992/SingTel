@@ -91,7 +91,7 @@
                 };
 
                 this.weChatShare = function () {
-                    api({url: location.href}, {type: 'GET', url: 'api/user_info'}).then(function (result) {
+                    api({url: location.href}, {type: 'GET', url: 'api/js_data'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             var data = result.data;
                             // 微信配置
@@ -168,6 +168,10 @@
                     scrollbar: false,
                     content: tips
                 });
+            });
+
+            $(document).on('click', '[data-type="shareCover"]', function (e) {
+                $(e.target).hide();
             });
 
             //从 canvas 提取图片 image
