@@ -65,7 +65,30 @@
                 this.getQRCodeImg = function () {
                     var $shareQRCodes = $('#shareQRCodes', $html);
 
-                    api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
+                    $.ajax({
+                        type: 'GET',
+                        url: 'api/qrcode',
+                        success: function (result) {
+                            if (!!result && result.status == 0) {
+                                _this.userTicket = result.data.ticket;
+                                // 如果是被分享的连接，则使用分享人的二维码
+                                var src = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ (!!_this.sharedTicket ? _this.sharedTicket : _this.userTicket);
+                                $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+src+'" />');
+                            } else {
+                                $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
+                            }
+                        },
+                        error: function (err) {
+                            if (!!_this.sharedTicket) {
+                                // 如果是被分享的连接，则使用分享人的二维码
+                                var src = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='+ _this.sharedTicket;
+                                $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+src+'" />');
+                            } else {
+                                $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
+                            }
+                        }
+                    });
+                    /*api({}, {type: 'GET', url: 'api/qrcode'}).then(function (result) {
                         if (!!result && result.status == 0) {
                             _this.userTicket = result.data.ticket;
                             // 如果是被分享的连接，则使用分享人的二维码
@@ -74,7 +97,7 @@
                         } else {
                             $('#qrcodeImg', $shareQRCodes).append('<img class="qrCodeImg" id="QRCode" src="'+ conPath +'/build/img/QRCode.jpg" />');
                         }
-                    });
+                    });*/
                 };
 
                 /**
