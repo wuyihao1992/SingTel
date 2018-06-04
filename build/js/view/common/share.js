@@ -69,6 +69,8 @@
                         type: 'GET',
                         url: 'api/qrcode',
                         success: function (result) {
+                            $('[data-type="shareCover"]', $html).show();    // 会员则打开遮罩
+
                             if (!!result && result.status == 0) {
                                 _this.userTicket = result.data.ticket;
                                 // 如果是被分享的连接，则使用分享人的二维码
