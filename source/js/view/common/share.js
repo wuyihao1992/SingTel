@@ -14,6 +14,13 @@
                 this.userTicket = '';                                       // 当前用户的ticket
                 this.sharedTicket = fun.getReportQueryString('ticket');     // 上一个分享用户的ticket
 
+                this.initCover = function () {
+                    var type = fun.getReportQueryString('type');            // 仅当type==1，即从会员首页进入才展示
+                    if (type && type ==1) {
+                        $('[data-type="shareCover"]', $html).show();        // 打开遮罩
+                    }
+                };
+
                 // 无用
                 this.testQRCode = function (type) {
                     var $shareQRCodes = $('#shareQRCodes', $html);
@@ -69,8 +76,6 @@
                         type: 'GET',
                         url: 'api/qrcode',
                         success: function (result) {
-                            $('[data-type="shareCover"]', $html).show();    // 会员则打开遮罩
-
                             if (!!result && result.status == 0) {
                                 _this.userTicket = result.data.ticket;
                                 // 如果是被分享的连接，则使用分享人的二维码
@@ -174,6 +179,7 @@
                     this.getQRCodeImg();
                     this.getCredit();
                     this.weChatShare();
+                    this.initCover();
                 };
             };
             var share = new Share();
