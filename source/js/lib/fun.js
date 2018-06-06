@@ -151,7 +151,8 @@ define(function (require, exports, module) {
         $.ajax({
             url: 'api/pay/create',
             contentType: 'application/x-www-form-urlencoded',
-            data: {item_id: id, phone: telNum}
+            data: {item_id: id, phone: telNum},
+            type: 'post'
         }).then(function (result) {
             layer.close(layerIndex);
 
@@ -241,7 +242,8 @@ define(function (require, exports, module) {
             $.ajax({
                 url: 'api/refund',
                 contentType: 'application/x-www-form-urlencoded',
-                data: {trade_num: data.id}
+                data: {trade_num: data.id},
+                type: 'post'
             }).then(function (result) {
                 layer.close(layerIndex);
                 if (!!result && result.status == 0) {
