@@ -2,8 +2,7 @@ define(function (require, exports, module) {
     "use strict";
 
     // 配置
-    var bill_status = {1: '创建成功', 2: '支付成功', 3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中', 9: '充值处理中'},  // {3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中'}
-        class_name = {calls: '话费', package: '套餐', flow: '流量'};
+    var bill_status = {1: '创建成功', 2: '支付成功', 3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中', 9: '充值处理中'};  // {3: '充值成功', 4: '支付失败', 5: '充值失败', 6: '退款成功', 7: '退款失败', 8: '退款处理中'}
 
     var storageKey = 'telList'; // 缓存字段
 
@@ -416,14 +415,15 @@ define(function (require, exports, module) {
 
     /**
      * 套餐类型
-     * @param data {话费: [{}], 套餐: [{}], 流量: [{}]}
+     * @param data {calls: [{}], package: [{}], flow: [{}]} => {话费: [{}], 套餐: [{}], 流量: [{}]}
      * @returns {{tabStr: string, contStr: string}}
      */
     exports.itemList = function (data) {
         var tabStr = '', contStr = '', index = 0;
 
-        var tempKey = {'话费': 0, '套餐': 1, '流量': 2},
+        var tempKey = {calls: 0, package: 1, flow: 2},
             tempType = {0: 'calls', 1: 'package', 2: 'flow'};
+        var class_name = {calls: '话费', package: '套餐', flow: '流量'};
 
         // 排序
         // i = 话费 套餐 流量
