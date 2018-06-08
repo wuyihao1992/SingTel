@@ -7,6 +7,7 @@
         $(function () {
             var conPath = $conf.dev ? '/test' : '';
             var tips = '', swalTips = '正在获取积分规则，请稍后！';
+            var getSource = false;                                          // 是否添加积分
 
             var Share = function () {
                 var _this = this;
@@ -126,7 +127,7 @@
                             var data = result.data;
                             // 微信配置
                             wx.config({
-                                debug: false,
+                                debug: true,
                                 appId: data.app_id,
                                 timestamp: data.timestamp,
                                 nonceStr: data.noncestr,
@@ -147,12 +148,15 @@
                                         imgUrl: location.origin + conPath + '/build/img/card.jpg',
                                         type: 'link',
                                         success: function (res) {
+                                            console.log(res);
                                             if (!!type) {
-                                                api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
-                                                    if (!!response && response.status == 0) {
-                                                        fun.swal('分享成功', 'success');
-                                                    }
-                                                });
+                                                if (getSource) {
+                                                    api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
+                                                        if (!!response && response.status == 0) {
+                                                            fun.swal('分享成功', 'success');
+                                                        }
+                                                    });
+                                                }
                                             }
                                         }
                                     };
