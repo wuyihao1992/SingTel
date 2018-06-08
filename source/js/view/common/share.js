@@ -127,7 +127,7 @@
                             var data = result.data;
                             // 微信配置
                             wx.config({
-                                debug: true,
+                                debug: false,
                                 appId: data.app_id,
                                 timestamp: data.timestamp,
                                 nonceStr: data.noncestr,
@@ -149,13 +149,15 @@
                                         type: 'link',
                                         success: function (res) {
                                             console.log(res);
-                                            if (!!type) {
-                                                if (getSource) {
-                                                    api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
-                                                        if (!!response && response.status == 0) {
-                                                            fun.swal('分享成功', 'success');
-                                                        }
-                                                    });
+                                            if (res.errMsg === "onMenuShareTimeline:ok") {
+                                                if (!!type) {
+                                                    if (getSource) {
+                                                        api({}, {type: 'GET', url: 'api/share'}).then(function (response) {
+                                                            if (!!response && response.status == 0) {
+                                                                fun.swal('分享成功', 'success');
+                                                            }
+                                                        });
+                                                    }
                                                 }
                                             }
                                         }
