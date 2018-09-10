@@ -15,7 +15,7 @@
             // "css": "//cdn.bootcss.com/require-css/0.1.8/css.min",
 
             "css": "../assets/js/css.min",
-            "layer": "../assets/layer/layer",
+            // "layer": "../assets/layer/layer",
 
             "api": "lib/API.min",
             "fun": "lib/fun",
@@ -25,10 +25,8 @@
     });
 
     require([], function (){
-        require(['layer'], function () {
-            // layer.config({
-            //     path: '../assets/layer/' //layer.js所在的目录，可以是绝对目录，也可以是相对目录
-            // });
+        layer.config({
+            path: '../assets/layer/' //layer.js所在的目录，可以是绝对目录，也可以是相对目录
         });
 
         var testPath = $conf.dev ? 'test/' : '';
