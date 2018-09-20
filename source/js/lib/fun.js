@@ -17,14 +17,21 @@ define(function (require, exports, module) {
 
         if (!!type) {
             var rules = {
-                "phone": {
+                phone: {
                     rule: function(v) {
-                        if(v.length>8) return false;
+                        if (v.length > 8) return false;
                         return /^[8|9][0-9]{7}$/i.test(v.trim());
                     },
                     msg: "请输入正确的手机号码"
                 },
-                "chinaPhone": {
+                newCalls: {
+                    rule: function(v) {
+                        if (v.length > 9) return false;
+                        return /^[8|9][0-9]{7,8}$/i.test(v.trim());
+                    },
+                    msg: "请输入正确的手机号码"
+                },
+                chinaPhone: {
                     rule: function(v) {
                         if(v.length>11) return false;
                         return /((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/i.test(v.trim());
@@ -521,9 +528,19 @@ define(function (require, exports, module) {
                 return false;
             }
 
+            var $this = $(e.target);
+            if ($this.is('span')) {
+                $this = $this.parent('div');
+            }
+
             var telNum = $('input[name="telNum"]').val();
 
-            var result = module.exports.available('phone', telNum);
+            var availableType = $this.data('phone');
+            if (!availableType) {
+                availableType = 'phone';
+            }
+
+            var result = module.exports.available(availableType, telNum);
             if (result.rule == false) {
                 module.exports.swal(result.msg, 'warning');
                 return false;

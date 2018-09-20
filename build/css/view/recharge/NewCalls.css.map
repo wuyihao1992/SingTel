@@ -1,0 +1,1 @@
+{"version":3,"sources":["NewCalls.css"],"names":[],"mappings":"AAAA,uBAAuB,cAAc,2BAA2B,CAAC,QAAQ,cAAc,oBAAoB,CAAC,eAAe,wBAAwB,CAAC","file":"NewCalls.css","sourcesContent":[".r-tab__ul li.active a{color:#ff8082;border-bottom-color:#ff8082}.r-item{color:#ff8082;border-color:#ff8082}.r-item.active{background-color:#ff8082}\n"]}
