@@ -1,0 +1,8 @@
+@import "../../vars";
+
+$page-color: #ff8082;
+
+.r-tab__ul li.active a{color: $page-color; border-bottom-color: $page-color;}
+
+.r-item{color: $page-color; border-color: $page-color;}
+.r-item.active{background-color: $page-color;}
