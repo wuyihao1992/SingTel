@@ -27,7 +27,7 @@ define(function (require, exports, module) {
                 newCalls: {
                     rule: function(v) {
                         if (v.length > 9) return false;
-                        return /^[8|9][0-9]{7,8}$/i.test(v.trim());
+                        return /^[8|9][0-9]{8,9}$/i.test(v.trim());
                     },
                     msg: "请输入正确的手机号码"
                 },
