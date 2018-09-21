@@ -26,10 +26,10 @@ define(function (require, exports, module) {
                 },
                 newCalls: {
                     rule: function(v) {
-                        if (v.length > 9) return false;
-                        return /^[8|9][0-9]{8,9}$/i.test(v.trim());
+                        if (v === '' || v.length > 10) return false;
+                        return /^[0-9]{9,10}$/i.test(v.trim());
                     },
-                    msg: "请输入正确的手机号码"
+                    msg: "请输入9位或10位的手机号码"
                 },
                 chinaPhone: {
                     rule: function(v) {
@@ -422,7 +422,7 @@ define(function (require, exports, module) {
 
     /**
      * 套餐类型
-     * @param data {calls: [{}], package: [{}], flow: [{}]} => {话费: [{}], 套餐: [{}], 流量: [{}]}
+     * @param data JSON {calls: [{}], package: [{}], flow: [{}]} => {话费: [{}], 套餐: [{}], 流量: [{}]}
      * @returns {{tabStr: string, contStr: string}}
      */
     exports.itemList = function (data) {
@@ -528,11 +528,7 @@ define(function (require, exports, module) {
                 return false;
             }
 
-            var $this = $(e.target);
-            if ($this.is('span')) {
-                $this = $this.parent('div');
-            }
-
+            var $this = $(this);
             var telNum = $('input[name="telNum"]').val();
 
             var availableType = $this.data('phone');
@@ -546,7 +542,6 @@ define(function (require, exports, module) {
                 return false;
             }
 
-            // console.log($activeItem);
             if ($activeItem.length <= 0) {
                 module.exports.swal('请选择产品', 'warning');
                 return false;
